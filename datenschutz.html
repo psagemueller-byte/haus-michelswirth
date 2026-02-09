@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datenschutzerklärung — Haus Michelswirth</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        @font-face {
+            font-family: 'Cormorant Garamond';
+            src: url('fonts/CormorantGaramond-Variable.ttf') format('truetype');
+            font-weight: 300 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Cormorant Garamond';
+            src: url('fonts/CormorantGaramond-Italic-Variable.ttf') format('truetype');
+            font-weight: 300 600;
+            font-style: italic;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'DM Sans';
+            src: url('fonts/DMSans-Variable.ttf') format('truetype');
+            font-weight: 300 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #FAF7F2;
+            --dark: #1A1714;
+            --gold: #C9A96E;
+            --gold-dark: #A8894E;
+            --text-dark: #1A1714;
+            --text-body: #4A4540;
+            --text-muted: #8A8580;
+            --text-light: #F5F2ED;
+            --text-light-muted: rgba(245, 242, 237, 0.6);
+            --font-heading: 'Cormorant Garamond', 'Georgia', serif;
+            --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--cream);
+            color: var(--text-body);
+            line-height: 1.7;
+            font-size: clamp(15px, 1.1vw, 17px);
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.4em clamp(2em, 6vw, 5em);
+            background: var(--dark);
+            border-bottom: 1px solid rgba(245, 242, 237, 0.08);
+        }
+
+        .nav-logo {
+            font-family: var(--font-heading);
+            font-size: clamp(20px, 2vw, 26px);
+            font-weight: 400;
+            font-style: italic;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        .nav-back {
+            font-size: 0.85em;
+            color: var(--gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            transition: color 0.3s;
+        }
+
+        .nav-back:hover {
+            color: var(--gold-dark);
+        }
+
+        .legal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: calc(80px + 4em) clamp(2em, 6vw, 5em) 5em;
+        }
+
+        .legal-content h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-bottom: 0.3em;
+        }
+
+        .legal-content .legal-updated {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            margin-bottom: 3em;
+        }
+
+        .legal-content h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(22px, 2.2vw, 28px);
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-top: 2.5em;
+            margin-bottom: 0.8em;
+        }
+
+        .legal-content h3 {
+            font-family: var(--font-heading);
+            font-size: clamp(18px, 1.6vw, 22px);
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-top: 2em;
+            margin-bottom: 0.5em;
+        }
+
+        .legal-content p {
+            margin-bottom: 1em;
+        }
+
+        .legal-content a {
+            color: var(--gold-dark);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .legal-content a:hover {
+            color: var(--gold);
+        }
+
+        .legal-content ul, .legal-content ol {
+            margin-bottom: 1em;
+            padding-left: 1.5em;
+        }
+
+        .legal-content li {
+            margin-bottom: 0.4em;
+        }
+
+        .footer {
+            background: #121110;
+            padding: clamp(2.5em, 5vh, 4em) clamp(2em, 6vw, 5em);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5em;
+        }
+
+        .footer-brand {
+            font-family: var(--font-heading);
+            font-size: 1.3em;
+            font-weight: 400;
+            color: var(--text-light-muted);
+            font-style: italic;
+        }
+
+        .footer-center {
+            font-size: 0.8em;
+            color: rgba(245, 242, 237, 0.3);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2em;
+        }
+
+        .footer-links a {
+            font-size: 0.8em;
+            color: rgba(245, 242, 237, 0.35);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">Haus Michelswirth</a>
+        <a href="index.html" class="nav-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Zurück zur Startseite
+        </a>
+    </nav>
+
+    <main class="legal-content">
+        <h1>Datenschutzerklärung</h1>
+        <p class="legal-updated">Stand: Februar 2026</p>
+
+        <h2>1. Verantwortlicher</h2>
+        <p>Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:</p>
+        <p>
+            Sagemüller Grundbesitz eGbR<br>
+            Sundernstraße 218<br>
+            33335 Gütersloh<br>
+            E-Mail: <a href="mailto:sagemueller@haus-michelswirth.de">sagemueller@haus-michelswirth.de</a>
+        </p>
+
+        <h2>2. Allgemeines zur Datenverarbeitung</h2>
+        <p>Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.</p>
+        <p>Die Nutzung unserer Website ist in der Regel ohne Angabe personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, E-Mail-Adresse oder Telefonnummer) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben.</p>
+
+        <h2>3. Hosting</h2>
+        <p>Unsere Website wird bei einem externen Dienstleister gehostet (Hoster). Die personenbezogenen Daten, die auf dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert. Hierbei kann es sich v. a. um IP-Adressen, Kontaktanfragen, Meta- und Kommunikationsdaten, Vertragsdaten, Kontaktdaten, Namen, Websitezugriffe und sonstige Daten, die über eine Website generiert werden, handeln.</p>
+        <p>Der Einsatz des Hosters erfolgt im Interesse einer sicheren, schnellen und effizienten Bereitstellung unseres Online-Angebots durch einen professionellen Anbieter (Art. 6 Abs. 1 lit. f DSGVO). Sofern eine entsprechende Einwilligung abgefragt wurde, erfolgt die Verarbeitung ausschließlich auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO.</p>
+
+        <h2>4. Server-Log-Dateien</h2>
+        <p>Der Provider der Seiten erhebt und speichert automatisch Informationen in sogenannten Server-Log-Dateien, die Ihr Browser automatisch an uns übermittelt. Dies sind:</p>
+        <ul>
+            <li>Browsertyp und Browserversion</li>
+            <li>Verwendetes Betriebssystem</li>
+            <li>Referrer URL</li>
+            <li>Hostname des zugreifenden Rechners</li>
+            <li>Uhrzeit der Serveranfrage</li>
+            <li>IP-Adresse</li>
+        </ul>
+        <p>Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen. Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Der Websitebetreiber hat ein berechtigtes Interesse an der technisch fehlerfreien Darstellung und der Optimierung seiner Website — hierzu müssen die Server-Log-Dateien erfasst werden.</p>
+
+        <h2>5. Kontaktformular</h2>
+        <p>Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.</p>
+        <p>Die Verarbeitung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO, sofern Ihre Anfrage mit der Erfüllung eines Vertrags zusammenhängt oder zur Durchführung vorvertraglicher Maßnahmen erforderlich ist. In allen übrigen Fällen beruht die Verarbeitung auf unserem berechtigten Interesse an der effektiven Bearbeitung der an uns gerichteten Anfragen (Art. 6 Abs. 1 lit. f DSGVO) oder auf Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) sofern diese abgefragt wurde.</p>
+        <p>Die von Ihnen im Kontaktformular eingegebenen Daten verbleiben bei uns, bis Sie uns zur Löschung auffordern, Ihre Einwilligung zur Speicherung widerrufen oder der Zweck für die Datenspeicherung entfällt (z. B. nach abgeschlossener Bearbeitung Ihrer Anfrage). Zwingende gesetzliche Bestimmungen — insbesondere Aufbewahrungsfristen — bleiben unberührt.</p>
+        <p>Im Einzelnen werden folgende Daten erhoben:</p>
+        <ul>
+            <li>Name (Pflichtfeld)</li>
+            <li>E-Mail-Adresse (Pflichtfeld)</li>
+            <li>Telefonnummer (freiwillig)</li>
+            <li>Nachricht (Pflichtfeld)</li>
+        </ul>
+
+        <h2>6. Anfrage per E-Mail</h2>
+        <p>Wenn Sie uns per E-Mail kontaktieren, wird Ihre Anfrage inklusive aller daraus hervorgehenden personenbezogenen Daten (Name, E-Mail-Adresse, Nachrichteninhalt) zum Zwecke der Bearbeitung Ihres Anliegens bei uns gespeichert und verarbeitet. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.</p>
+        <p>Die Verarbeitung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO, sofern Ihre Anfrage mit der Erfüllung eines Vertrags zusammenhängt oder zur Durchführung vorvertraglicher Maßnahmen erforderlich ist. In allen übrigen Fällen beruht die Verarbeitung auf Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) und/oder auf unserem berechtigten Interesse (Art. 6 Abs. 1 lit. f DSGVO).</p>
+
+        <h2>7. Schriftarten (lokal gehostet)</h2>
+        <p>Diese Website nutzt Schriftarten („Fonts"), die lokal auf dem eigenen Server gehostet werden. Beim Laden der Seite werden keine Verbindungen zu externen Servern hergestellt. Es findet keine Datenübermittlung an Dritte statt.</p>
+
+        <h2>8. Cookies</h2>
+        <p>Unsere Website verwendet keine Cookies. Es werden keine Tracking-, Marketing- oder sonstigen Cookies eingesetzt.</p>
+
+        <h2>9. SSL-/TLS-Verschlüsselung</h2>
+        <p>Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte, wie zum Beispiel Anfragen, die Sie an uns als Seitenbetreiber senden, eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von „http://" auf „https://" wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.</p>
+
+        <h2>10. Ihre Rechte als betroffene Person</h2>
+        <p>Sie haben gegenüber uns folgende Rechte hinsichtlich der Sie betreffenden personenbezogenen Daten:</p>
+        <ul>
+            <li><strong>Recht auf Auskunft</strong> (Art. 15 DSGVO) — Sie können Auskunft über Ihre von uns verarbeiteten personenbezogenen Daten verlangen.</li>
+            <li><strong>Recht auf Berichtigung</strong> (Art. 16 DSGVO) — Sie können die Berichtigung unrichtiger oder die Vervollständigung Ihrer bei uns gespeicherten personenbezogenen Daten verlangen.</li>
+            <li><strong>Recht auf Löschung</strong> (Art. 17 DSGVO) — Sie können die Löschung Ihrer bei uns gespeicherten personenbezogenen Daten verlangen, soweit nicht die Verarbeitung zur Ausübung des Rechts auf freie Meinungsäußerung und Information, zur Erfüllung einer rechtlichen Verpflichtung, aus Gründen des öffentlichen Interesses oder zur Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen erforderlich ist.</li>
+            <li><strong>Recht auf Einschränkung der Verarbeitung</strong> (Art. 18 DSGVO) — Sie können die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten verlangen.</li>
+            <li><strong>Recht auf Datenübertragbarkeit</strong> (Art. 20 DSGVO) — Sie können verlangen, Ihre personenbezogenen Daten, die Sie uns bereitgestellt haben, in einem strukturierten, gängigen und maschinenlesbaren Format zu erhalten.</li>
+            <li><strong>Recht auf Widerspruch</strong> (Art. 21 DSGVO) — Sie können jederzeit gegen die Verarbeitung Ihrer personenbezogenen Daten Widerspruch einlegen, sofern die Verarbeitung auf Grundlage von Art. 6 Abs. 1 lit. e oder f DSGVO erfolgt.</li>
+            <li><strong>Recht auf Widerruf</strong> (Art. 7 Abs. 3 DSGVO) — Sie können Ihre einmal erteilte Einwilligung jederzeit gegenüber uns widerrufen. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Datenverarbeitung bleibt vom Widerruf unberührt.</li>
+        </ul>
+
+        <h2>11. Beschwerderecht bei einer Aufsichtsbehörde</h2>
+        <p>Unbeschadet eines anderweitigen verwaltungsrechtlichen oder gerichtlichen Rechtsbehelfs steht Ihnen das Recht auf Beschwerde bei einer Aufsichtsbehörde zu, insbesondere in dem Mitgliedstaat Ihres Aufenthaltsorts, Ihres Arbeitsplatzes oder des Orts des mutmaßlichen Verstoßes, wenn Sie der Ansicht sind, dass die Verarbeitung der Sie betreffenden personenbezogenen Daten gegen die DSGVO verstößt.</p>
+        <p>Die zuständige Aufsichtsbehörde ist:</p>
+        <p>
+            Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen<br>
+            Kavalleriestraße 2–4<br>
+            40213 Düsseldorf<br>
+            <a href="https://www.ldi.nrw.de" target="_blank" rel="noopener noreferrer">www.ldi.nrw.de</a>
+        </p>
+
+        <h2>12. Aktualität und Änderung dieser Datenschutzerklärung</h2>
+        <p>Diese Datenschutzerklärung ist aktuell gültig und hat den Stand Februar 2026. Durch die Weiterentwicklung unserer Website und Angebote darüber oder aufgrund geänderter gesetzlicher beziehungsweise behördlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern.</p>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-brand">Haus Michelswirth</div>
+        <div class="footer-center">&copy; 2026 Sagemüller Grundbesitz eGbR. Alle Rechte vorbehalten.</div>
+        <div class="footer-links">
+            <a href="impressum.html">Impressum</a>
+            <a href="datenschutz.html">Datenschutz</a>
+        </div>
+    </footer>
+
+</body>
+</html>
