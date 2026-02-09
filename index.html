@@ -612,30 +612,16 @@
 
         .kitchen-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: clamp(3em, 6vw, 6em);
             align-items: center;
             margin-top: 3em;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .kitchen-image {
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            aspect-ratio: 4 / 3;
-        }
-
-        .kitchen-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s var(--ease);
-        }
-
-        .kitchen-image:hover img {
-            transform: scale(1.03);
-        }
-
-        .kitchen-features {
+.kitchen-features {
             display: flex;
             flex-direction: column;
             gap: 2em;
@@ -1184,7 +1170,7 @@
             </div>
             <h1>Haus<br><em>Michelswirth</em></h1>
             <p class="hero-subtitle">Etablierte Gastronomie zu verpachten</p>
-            <p class="hero-text">Übernehmen Sie das vollständig eingerichtete Haus Michelswirth im historischen Fachwerkhaus — mit Profiküche, elegantem Speisesaal und stilvoller Bar. Schlüsselfertig und bereit für Ihr Konzept.</p>
+            <p class="hero-text">Übernehmen Sie das Haus Michelswirth im historischen Fachwerkhaus — mit 750 m² Gastfläche, Platz für bis zu 184 Personen, elegantem Saal und stilvoller Bar. Bereit für Ihr Konzept.</p>
             <a href="#kontakt" class="btn-primary">
                 Besichtigung anfragen
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1205,7 +1191,7 @@
         <div class="intro-grid">
             <div class="intro-main reveal">
                 <p>Das Haus Michelswirth vereint historischen Charme mit moderner Gastronomie-Infrastruktur. Im Herzen eines idyllischen Standorts gelegen, bietet das Fachwerkhaus einen einzigartigen Rahmen für anspruchsvolle kulinarische Konzepte.</p>
-                <p>Auf rund 350 Quadratmetern Gastfläche erwarten Sie ein repräsentativer Speisesaal mit ca. 80 Sitzplätzen, ein intimes Kaminzimmer für besondere Anlässe, eine vollwertige Bar mit Lounge-Bereich sowie eine professionell ausgestattete Großküche. Alle Räumlichkeiten befinden sich in einem gepflegten und sofort nutzbaren Zustand.</p>
+                <p>Auf rund 750 Quadratmetern Gastfläche bietet das Haus Platz für bis zu 184 Personen in verschiedenen Bereichen: zwei Restaurants (bis 24 bzw. 16 Personen), ein Kaminzimmer (bis 14 Personen), ein großer Saal (bis 100 Personen, ideal für Feierlichkeiten ab 40 Personen) sowie eine Terrasse (ca. 30 Personen). Alle Räumlichkeiten befinden sich in einem gepflegten und sofort nutzbaren Zustand. Sprechen Sie uns an — wir zeigen Ihnen gerne alle Räume.</p>
                 <p>Die etablierte Adresse und der hohe Wiedererkennungswert bieten ideale Voraussetzungen für Gastronomen, die ein schlüsselfertiges Objekt mit Charakter suchen.</p>
             </div>
             <div class="intro-side reveal reveal-delay-2">
@@ -1223,14 +1209,14 @@
                 <div class="stat-icon">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
-                <div class="stat-value">~80</div>
-                <div class="stat-label">Sitzplätze</div>
+                <div class="stat-value">184</div>
+                <div class="stat-label">Plätze</div>
             </div>
             <div class="stat-card reveal reveal-delay-2">
                 <div class="stat-icon">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
                 </div>
-                <div class="stat-value">350m²</div>
+                <div class="stat-value">750m²</div>
                 <div class="stat-label">Gastfläche</div>
             </div>
             <div class="stat-card reveal reveal-delay-3">
@@ -1261,13 +1247,13 @@
             <figure class="gallery-card featured reveal">
                 <img src="images/saal.jpg" alt="Eleganter Speisesaal mit runden Tischen, weißen Tischdecken und Kristallleuchtern" loading="lazy">
                 <div class="gallery-card-overlay">
-                    <div class="gallery-card-label">Speisesaal <small>ca. 80 Sitzplätze · Kristallleuchter · Elegantes Ambiente</small></div>
+                    <div class="gallery-card-label">Saal <small>bis 100 Personen · Ideal für Feierlichkeiten ab 40 Personen</small></div>
                 </div>
             </figure>
             <figure class="gallery-card reveal reveal-delay-1">
                 <img src="images/kaminzimmer.jpg" alt="Gemütliches Kaminzimmer mit Lederbänken und warmem Licht" loading="lazy">
                 <div class="gallery-card-overlay">
-                    <div class="gallery-card-label">Kaminzimmer <small>Intimer Gastraum · ca. 20 Plätze</small></div>
+                    <div class="gallery-card-label">Kaminzimmer <small>Intimer Gastraum · bis 14 Personen</small></div>
                 </div>
             </figure>
             <figure class="gallery-card reveal reveal-delay-2">
@@ -1283,11 +1269,9 @@
     <section class="kitchen section-padding" id="ausstattung">
         <div class="section-label reveal" style="color: var(--gold);">Ausstattung &amp; Technik</div>
         <h2 class="section-heading section-heading-light reveal">Professionell ausgestattet,<br>sofort einsatzbereit</h2>
+        <p class="reveal" style="text-align: center; color: var(--text-light-muted); max-width: 680px; margin: 1em auto 0; font-size: 0.95em; line-height: 1.7;">Das vorhandene Inventar gehört nicht zum Pachtobjekt, eine Übernahme ist jedoch mit dem aktuellen Pächter verhandelbar.</p>
 
         <div class="kitchen-grid">
-            <div class="kitchen-image reveal">
-                <img src="images/kueche.jpg" alt="Professionelle Edelstahl-Großküche mit Gasbrenner und Abzugssystem" loading="lazy">
-            </div>
             <div class="kitchen-features">
                 <div class="kitchen-feature reveal reveal-delay-1">
                     <div class="kitchen-feature-icon">
@@ -1351,14 +1335,14 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                 </div>
                 <h3>Erstklassige Lage</h3>
-                <p>Zentral und dennoch idyllisch gelegen — mit hervorragender Anbindung und hoher Sichtbarkeit im Ort.</p>
+                <p>Direkt an der Dalke gelegen, mit Zugang zum Fuß- und Radweg. In nur 10 Autominuten erreichen Sie die Gütersloher Innenstadt sowie die Autobahn A2. Große Unternehmen wie Nobilia, Miele und Bertelsmann in unmittelbarer Nähe — perfekt für Geschäftsessen und Firmenevents.</p>
             </div>
             <div class="highlight-card reveal reveal-delay-2">
                 <div class="highlight-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
                 </div>
                 <h3>Ausreichend Parkplätze</h3>
-                <p>Eigener Parkplatz direkt am Haus bietet Gästen bequeme Parkmöglichkeiten — ein wichtiger Standortvorteil.</p>
+                <p>Zwei große Parkplätze mit insgesamt ca. 45 Stellplätzen stehen Ihren Gästen kostenlos zur Verfügung.</p>
             </div>
             <div class="highlight-card reveal reveal-delay-3">
                 <div class="highlight-icon">
@@ -1372,7 +1356,7 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
                 <h3>Hohe Kapazität</h3>
-                <p>Mit rund 80 Sitzplätzen im Saal und weiteren Plätzen in Nebenräumen eignet sich das Restaurant auch für große Gesellschaften.</p>
+                <p>Auf 750 m² Gastfläche bieten verschiedene Räumlichkeiten Platz für bis zu 184 Personen — ideal für große Gesellschaften und Firmenevents.</p>
             </div>
             <div class="highlight-card reveal reveal-delay-5">
                 <div class="highlight-icon">
