@@ -21,7 +21,7 @@ export default async function handler(req, res) {
                 body: JSON.stringify({
                     fields: {
                         'Vorname': vorname,
-                        'Name': name,
+                        'Nachname': name,
                         'Email': email,
                         'Telefon': telefon || '',
                         'Nachricht': nachricht
