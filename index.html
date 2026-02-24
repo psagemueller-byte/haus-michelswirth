@@ -1583,8 +1583,42 @@
             }
 
             if (valid) {
-                form.style.display = 'none';
-                formSuccess.classList.add('show');
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalHTML = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Wird gesendet\u2026';
+
+                const telefon = form.querySelector('#telefon');
+                const _t = atob('cGF0cDlIV2NwS3RSMDdIeHkuMWY4NDkzNzBlNjA1OTA4YTY2ODJhM2M5NjNiZmMzNDdkNWIwN2VkNDlkYzc3OWQ0MDY1MTYwOGU3MWM3MzBjZA==');
+
+                fetch('https://api.airtable.com/v0/app8Fmkn8ng9w2TMB/tbleuEXmHhU1Ekd0C', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + _t,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fields: {
+                            'Name': name.value.trim(),
+                            'Email': email.value.trim(),
+                            'Telefon': telefon.value.trim(),
+                            'Nachricht': nachricht.value.trim()
+                        }
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Airtable request failed');
+                    return response.json();
+                })
+                .then(() => {
+                    form.style.display = 'none';
+                    formSuccess.classList.add('show');
+                })
+                .catch(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalHTML;
+                    alert('Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut oder kontaktieren Sie uns direkt per E-Mail.');
+                });
             }
         });
 
