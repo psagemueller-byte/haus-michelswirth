@@ -904,6 +904,74 @@
             display: block;
         }
 
+        .form-group-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75em;
+            padding: 1.5em 0 0.5em;
+        }
+
+        .form-group-checkbox input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            border: 1px solid var(--border-dark);
+            border-radius: 3px;
+            background: transparent;
+            cursor: pointer;
+            margin-top: 2px;
+            transition: all 0.3s var(--ease);
+        }
+
+        .form-group-checkbox input[type="checkbox"]:checked {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .form-group-checkbox input[type="checkbox"]:checked::after {
+            content: '';
+            display: block;
+            width: 5px;
+            height: 10px;
+            border: solid var(--bg-dark);
+            border-width: 0 2px 2px 0;
+            margin: 1px auto;
+            transform: rotate(45deg);
+        }
+
+        .form-group-checkbox label {
+            font-size: 0.85em;
+            color: var(--text-light-muted);
+            line-height: 1.5;
+            cursor: pointer;
+        }
+
+        .form-group-checkbox label a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .form-group-checkbox label a:hover {
+            text-decoration: underline;
+        }
+
+        .form-group-checkbox .error-msg {
+            font-size: 0.75em;
+            color: #E06060;
+            padding: 0.3em 0 0;
+            display: none;
+        }
+
+        .form-group-checkbox.error input[type="checkbox"] {
+            border-color: #E06060;
+        }
+
+        .form-group-checkbox.error .error-msg {
+            display: block;
+        }
+
         .form-submit {
             margin-top: 2.5em;
         }
@@ -1455,6 +1523,13 @@
                         <label for="nachricht">Ihre Nachricht *</label>
                         <span class="error-msg">Bitte hinterlassen Sie uns eine Nachricht.</span>
                     </div>
+                    <div class="form-group-checkbox" id="datenschutz-group">
+                        <input type="checkbox" id="datenschutz" name="datenschutz" required>
+                        <div>
+                            <label for="datenschutz">Ich habe die <a href="/datenschutz.html" target="_blank">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *</label>
+                            <span class="error-msg">Bitte stimmen Sie der Datenschutzerklärung zu.</span>
+                        </div>
+                    </div>
                     <div class="form-submit">
                         <button type="submit" class="btn-primary">
                             Anfrage senden
@@ -1593,6 +1668,12 @@
                 valid = false;
             }
 
+            const datenschutz = form.querySelector('#datenschutz');
+            if (!datenschutz.checked) {
+                document.getElementById('datenschutz-group').classList.add('error');
+                valid = false;
+            }
+
             if (valid) {
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalHTML = submitBtn.innerHTML;
@@ -1631,8 +1712,13 @@
         // Remove error on input
         form.querySelectorAll('input, textarea').forEach(field => {
             field.addEventListener('input', () => {
-                field.closest('.form-group').classList.remove('error');
+                field.closest('.form-group')?.classList.remove('error');
             });
+        });
+
+        // Remove error on checkbox change
+        document.getElementById('datenschutz').addEventListener('change', () => {
+            document.getElementById('datenschutz-group').classList.remove('error');
         });
 
         /* ═══════════════════════════════════════
