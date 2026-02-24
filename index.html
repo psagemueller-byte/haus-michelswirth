@@ -1589,21 +1589,15 @@
                 submitBtn.innerHTML = 'Wird gesendet\u2026';
 
                 const telefon = form.querySelector('#telefon');
-                const _t = atob('cGF0cDlIV2NwS3RSMDdIeHkuMWY4NDkzNzBlNjA1OTA4YTY2ODJhM2M5NjNiZmMzNDdkNWIwN2VkNDlkYzc3OWQ0MDY1MTYwOGU3MWM3MzBjZA==');
 
-                fetch('https://api.airtable.com/v0/app8Fmkn8ng9w2TMB/tbleuEXmHhU1Ekd0C', {
+                fetch('/api/contact', {
                     method: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer ' + _t,
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        fields: {
-                            'Name': name.value.trim(),
-                            'Email': email.value.trim(),
-                            'Telefon': telefon.value.trim(),
-                            'Nachricht': nachricht.value.trim()
-                        }
+                        name: name.value.trim(),
+                        email: email.value.trim(),
+                        telefon: telefon.value.trim(),
+                        nachricht: nachricht.value.trim()
                     })
                 })
                 .then(response => {
