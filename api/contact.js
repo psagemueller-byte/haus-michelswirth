@@ -3,9 +3,9 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { name, email, telefon, nachricht } = req.body || {};
+    const { vorname, name, email, telefon, nachricht } = req.body || {};
 
-    if (!name || !email || !nachricht) {
+    if (!vorname || !name || !email || !nachricht) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -20,6 +20,7 @@ export default async function handler(req, res) {
                 },
                 body: JSON.stringify({
                     fields: {
+                        'Vorname': vorname,
                         'Name': name,
                         'Email': email,
                         'Telefon': telefon || '',

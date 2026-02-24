@@ -1432,6 +1432,11 @@
             <div class="reveal reveal-delay-2">
                 <form class="contact-form" id="contact-form" novalidate>
                     <div class="form-group">
+                        <input type="text" id="vorname" name="vorname" placeholder=" " required>
+                        <label for="vorname">Vorname *</label>
+                        <span class="error-msg">Bitte geben Sie Ihren Vornamen ein.</span>
+                    </div>
+                    <div class="form-group">
                         <input type="text" id="name" name="name" placeholder=" " required>
                         <label for="name">Name *</label>
                         <span class="error-msg">Bitte geben Sie Ihren Namen ein.</span>
@@ -1563,9 +1568,15 @@
             form.querySelectorAll('.form-group').forEach(g => g.classList.remove('error'));
 
             // Validate required fields
+            const vorname = form.querySelector('#vorname');
             const name = form.querySelector('#name');
             const email = form.querySelector('#email');
             const nachricht = form.querySelector('#nachricht');
+
+            if (!vorname.value.trim()) {
+                vorname.closest('.form-group').classList.add('error');
+                valid = false;
+            }
 
             if (!name.value.trim()) {
                 name.closest('.form-group').classList.add('error');
@@ -1594,6 +1605,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
+                        vorname: vorname.value.trim(),
                         name: name.value.trim(),
                         email: email.value.trim(),
                         telefon: telefon.value.trim(),
