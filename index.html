@@ -918,6 +918,97 @@
         }
 
         /* ═══════════════════════════════════════
+           GALLERY CAROUSEL
+        ═══════════════════════════════════════ */
+        .gallery-carousel {
+            position: relative;
+            margin-top: clamp(2em, 4vw, 3.5em);
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+        }
+
+        .gallery-carousel-track {
+            display: flex;
+            transition: transform 0.6s var(--ease);
+        }
+
+        .gallery-carousel-slide {
+            min-width: 100%;
+            position: relative;
+            aspect-ratio: 16 / 9;
+        }
+
+        .gallery-carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-carousel-slide .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: clamp(1em, 2vw, 2em);
+            background: linear-gradient(180deg, transparent 0%, rgba(26, 23, 20, 0.75) 100%);
+            font-family: var(--font-heading);
+            font-size: clamp(18px, 2vw, 26px);
+            font-weight: 400;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .gallery-carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: clamp(40px, 5vw, 56px);
+            height: clamp(40px, 5vw, 56px);
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(26, 23, 20, 0.6);
+            backdrop-filter: blur(8px);
+            color: var(--text-light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s var(--ease);
+            z-index: 2;
+        }
+
+        .gallery-carousel-btn:hover {
+            background: rgba(26, 23, 20, 0.85);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .gallery-carousel-btn.prev { left: clamp(12px, 2vw, 24px); }
+        .gallery-carousel-btn.next { right: clamp(12px, 2vw, 24px); }
+
+        .gallery-carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1.5em;
+        }
+
+        .gallery-carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1px solid var(--gold);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s var(--ease);
+            padding: 0;
+        }
+
+        .gallery-carousel-dot.active {
+            background: var(--gold);
+        }
+
+        /* ═══════════════════════════════════════
            KITCHEN / AUSSTATTUNG
         ═══════════════════════════════════════ */
         .kitchen {
@@ -1695,7 +1786,7 @@
         <div class="intro-grid">
             <div class="intro-main reveal" data-content="intro_text">
                 <p>Das Haus Michelswirth vereint historischen Charme mit moderner Gastronomie-Infrastruktur. Im Herzen eines idyllischen Standorts gelegen, bietet das Fachwerkhaus einen einzigartigen Rahmen für anspruchsvolle kulinarische Konzepte.</p>
-                <p>Auf rund 750 Quadratmetern Gastfläche bietet das Haus Platz für bis zu 184 Personen in verschiedenen Bereichen: zwei Restaurants (bis 24 bzw. 16 Personen), ein Kaminzimmer (bis 14 Personen), ein großer Saal (bis 100 Personen, ideal für Feierlichkeiten ab 40 Personen) sowie eine Terrasse (ca. 30 Personen). Alle Räumlichkeiten befinden sich in einem gepflegten und sofort nutzbaren Zustand. Sprechen Sie uns an — wir zeigen Ihnen gerne alle Räume.</p>
+                <p>Auf rund 750 Quadratmetern Gastfläche bietet das Haus Platz für bis zu 184 Personen in verschiedenen Räumen: ein Restaurant (bis 40 Personen), ein großer Saal (bis 100 Personen, ideal für Feierlichkeiten ab 40 Personen), eine Bar &amp; Lounge sowie eine Terrasse (ca. 30 Personen). Alle Räumlichkeiten befinden sich in einem gepflegten und sofort nutzbaren Zustand. Sprechen Sie uns an — wir zeigen Ihnen gerne alle Räume.</p>
                 <p>Die etablierte Adresse und der hohe Wiedererkennungswert bieten ideale Voraussetzungen für Gastronomen, die ein schlüsselfertiges Objekt mit Charakter suchen.</p>
             </div>
             <div class="intro-side reveal reveal-delay-2">
@@ -1845,9 +1936,9 @@
                 </div>
             </figure>
             <figure class="gallery-card reveal reveal-delay-1">
-                <img src="images/kaminzimmer.jpg" alt="Gemütliches Kaminzimmer mit Lederbänken und warmem Licht" loading="lazy">
+                <img src="images/kaminzimmer.jpg" alt="Restaurant mit gemütlicher Atmosphäre und warmem Licht" loading="lazy">
                 <div class="gallery-card-overlay">
-                    <div class="gallery-card-label">Kaminzimmer <small>Intimer Gastraum · bis 14 Personen</small></div>
+                    <div class="gallery-card-label">Restaurant <small>Gemütlicher Gastraum · bis 40 Personen</small></div>
                 </div>
             </figure>
             <figure class="gallery-card reveal reveal-delay-2">
@@ -1857,6 +1948,32 @@
                 </div>
             </figure>
         </div>
+
+        <!-- GALLERY CAROUSEL -->
+        <div class="gallery-carousel reveal" id="gallery-carousel">
+            <div class="gallery-carousel-track">
+                <div class="gallery-carousel-slide">
+                    <img src="images/saal.jpg" alt="Saal – Haus Michelswirth" loading="lazy">
+                    <div class="carousel-caption">Saal</div>
+                </div>
+                <div class="gallery-carousel-slide">
+                    <img src="images/kaminzimmer.jpg" alt="Restaurant – Haus Michelswirth" loading="lazy">
+                    <div class="carousel-caption">Restaurant</div>
+                </div>
+                <div class="gallery-carousel-slide">
+                    <img src="images/bar.jpg" alt="Bar & Lounge – Haus Michelswirth" loading="lazy">
+                    <div class="carousel-caption">Bar &amp; Lounge</div>
+                </div>
+            </div>
+            <button class="gallery-carousel-btn prev" aria-label="Vorheriges Bild">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="gallery-carousel-btn next" aria-label="Nächstes Bild">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+        <div class="gallery-carousel-dots"></div>
+
     </section>
 
     <!-- KITCHEN / AUSSTATTUNG -->
@@ -2135,6 +2252,67 @@
                 document.body.style.overflow = '';
             });
         });
+
+        /* ═══════════════════════════════════════
+           Gallery Carousel
+        ═══════════════════════════════════════ */
+        const carousel = document.getElementById('gallery-carousel');
+        if (carousel) {
+            const track = carousel.querySelector('.gallery-carousel-track');
+            const slides = track.querySelectorAll('.gallery-carousel-slide');
+            const prevBtn = carousel.querySelector('.gallery-carousel-btn.prev');
+            const nextBtn = carousel.querySelector('.gallery-carousel-btn.next');
+            const dotsContainer = carousel.closest('.gallery').querySelector('.gallery-carousel-dots');
+            let currentSlide = 0;
+
+            // Create dots
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.classList.add('gallery-carousel-dot');
+                if (i === 0) dot.classList.add('active');
+                dot.setAttribute('aria-label', `Bild ${i + 1}`);
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            });
+
+            function goToSlide(index) {
+                currentSlide = index;
+                track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                dotsContainer.querySelectorAll('.gallery-carousel-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === currentSlide);
+                });
+            }
+
+            prevBtn.addEventListener('click', () => {
+                goToSlide(currentSlide === 0 ? slides.length - 1 : currentSlide - 1);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                goToSlide(currentSlide === slides.length - 1 ? 0 : currentSlide + 1);
+            });
+
+            // Auto-advance every 6 seconds
+            let autoPlay = setInterval(() => {
+                goToSlide(currentSlide === slides.length - 1 ? 0 : currentSlide + 1);
+            }, 6000);
+
+            carousel.addEventListener('mouseenter', () => clearInterval(autoPlay));
+            carousel.addEventListener('mouseleave', () => {
+                autoPlay = setInterval(() => {
+                    goToSlide(currentSlide === slides.length - 1 ? 0 : currentSlide + 1);
+                }, 6000);
+            });
+
+            // Touch/swipe support
+            let touchStartX = 0;
+            carousel.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+            carousel.addEventListener('touchend', e => {
+                const diff = touchStartX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 50) {
+                    diff > 0 ? nextBtn.click() : prevBtn.click();
+                }
+            });
+        }
 
         /* ═══════════════════════════════════════
            Contact form validation
