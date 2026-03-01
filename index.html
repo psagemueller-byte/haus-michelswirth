@@ -544,6 +544,301 @@
         }
 
         /* ═══════════════════════════════════════
+           HISTORY CAROUSEL
+        ═══════════════════════════════════════ */
+        .history {
+            background: var(--dark);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .history-intro {
+            text-align: center;
+            margin-bottom: clamp(2em, 4vh, 3.5em);
+        }
+
+        .history-carousel {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Slides: crossfade stack */
+        .history-slides {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .history-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .history-slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .history-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.45) sepia(0.1);
+            transition: transform 6s cubic-bezier(0.25, 0, 0.25, 1);
+        }
+
+        .history-slide.active img {
+            transform: scale(1.05);
+        }
+
+        /* Text overlay */
+        .history-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: clamp(1.5em, 4vw, 3em);
+            background: linear-gradient(
+                0deg,
+                rgba(20, 18, 14, 0.9) 0%,
+                rgba(20, 18, 14, 0.5) 40%,
+                transparent 70%
+            );
+        }
+
+        .history-overlay .history-epoch {
+            font-family: var(--font-heading);
+            font-size: clamp(0.8em, 1.2vw, 0.95em);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.5em;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s 0.2s, transform 0.5s 0.2s;
+        }
+
+        .history-slide.active .history-epoch {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .history-overlay .history-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.6em, 3.5vw, 2.6em);
+            font-weight: 500;
+            color: var(--text-light);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s 0.3s, transform 0.5s 0.3s;
+        }
+
+        .history-slide.active .history-title {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .history-overlay .history-text {
+            font-size: clamp(0.85em, 1.1vw, 1em);
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s 0.4s, transform 0.5s 0.4s;
+        }
+
+        .history-slide.active .history-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Progress bar */
+        .history-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 2;
+        }
+
+        .history-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gold);
+            transition: width 0.3s linear;
+        }
+
+        .history-progress-bar.animating {
+            transition: width 6s linear;
+            width: 100%;
+        }
+
+        /* Controls below image */
+        .history-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: clamp(1.2em, 2.5vh, 2em);
+        }
+
+        .history-arrow {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid var(--border-dark);
+            background: transparent;
+            color: var(--text-light-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s var(--ease);
+            flex-shrink: 0;
+        }
+
+        .history-arrow:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(201, 169, 110, 0.08);
+        }
+
+        /* Timeline in center */
+        .history-timeline {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            position: relative;
+            flex: 1;
+            max-width: 500px;
+            margin: 0 clamp(1em, 2vw, 2em);
+        }
+
+        .history-timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 24px;
+            right: 24px;
+            height: 1px;
+            background: var(--border-dark);
+        }
+
+        .history-timeline-step {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            padding: 0.5em 0;
+            transition: all 0.3s;
+        }
+
+        .history-timeline-pip {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--border-dark);
+            background: var(--dark);
+            transition: all 0.4s var(--ease);
+            position: relative;
+            z-index: 1;
+        }
+
+        .history-timeline-step.active .history-timeline-pip {
+            border-color: var(--gold);
+            background: var(--gold);
+            box-shadow: 0 0 16px rgba(201, 169, 110, 0.5);
+        }
+
+        .history-timeline-label {
+            font-family: var(--font-heading);
+            font-size: 0.78em;
+            color: var(--text-light-muted);
+            margin-top: 0.6em;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        .history-timeline-step.active .history-timeline-label {
+            color: var(--gold);
+        }
+
+        .history-timeline-step:hover .history-timeline-pip {
+            border-color: var(--gold);
+        }
+
+        .history-timeline-step:hover .history-timeline-label {
+            color: var(--text-light);
+        }
+
+        /* Slide counter */
+        .history-counter {
+            font-family: var(--font-heading);
+            font-size: 0.85em;
+            color: var(--text-light-muted);
+            min-width: 48px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .history-counter .current-num {
+            color: var(--gold);
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .history-slides {
+                aspect-ratio: 3 / 4;
+                border-radius: 8px;
+            }
+
+            .history-overlay .history-text {
+                display: -webkit-box;
+                -webkit-line-clamp: 4;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .history-timeline-label {
+                font-size: 0.65em;
+            }
+
+            .history-arrow {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .history-slides {
+                aspect-ratio: 9 / 14;
+            }
+
+            .history-counter {
+                display: none;
+            }
+
+            .history-timeline {
+                margin: 0 0.5em;
+            }
+        }
+
+        /* ═══════════════════════════════════════
            GALLERY
         ═══════════════════════════════════════ */
         .gallery {
@@ -904,6 +1199,74 @@
             display: block;
         }
 
+        .form-group-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75em;
+            padding: 1.5em 0 0.5em;
+        }
+
+        .form-group-checkbox input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            border: 1px solid var(--border-dark);
+            border-radius: 3px;
+            background: transparent;
+            cursor: pointer;
+            margin-top: 2px;
+            transition: all 0.3s var(--ease);
+        }
+
+        .form-group-checkbox input[type="checkbox"]:checked {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .form-group-checkbox input[type="checkbox"]:checked::after {
+            content: '';
+            display: block;
+            width: 5px;
+            height: 10px;
+            border: solid var(--bg-dark);
+            border-width: 0 2px 2px 0;
+            margin: 1px auto;
+            transform: rotate(45deg);
+        }
+
+        .form-group-checkbox label {
+            font-size: 0.85em;
+            color: var(--text-light-muted);
+            line-height: 1.5;
+            cursor: pointer;
+        }
+
+        .form-group-checkbox label a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .form-group-checkbox label a:hover {
+            text-decoration: underline;
+        }
+
+        .form-group-checkbox .error-msg {
+            font-size: 0.75em;
+            color: #E06060;
+            padding: 0.3em 0 0;
+            display: none;
+        }
+
+        .form-group-checkbox.error input[type="checkbox"] {
+            border-color: #E06060;
+        }
+
+        .form-group-checkbox.error .error-msg {
+            display: block;
+        }
+
         .form-submit {
             margin-top: 2.5em;
         }
@@ -953,6 +1316,109 @@
         /* ═══════════════════════════════════════
            FOOTER
         ═══════════════════════════════════════ */
+        /* Admin Login Modal */
+        .login-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-overlay.show {
+            display: flex;
+        }
+
+        .login-box {
+            background: #1A1714;
+            border: 1px solid rgba(201,169,110,0.2);
+            border-radius: 12px;
+            padding: 2.5em;
+            width: 90%;
+            max-width: 360px;
+            text-align: center;
+        }
+
+        .login-box h3 {
+            font-family: var(--font-heading);
+            font-size: 1.4em;
+            margin-bottom: 0.3em;
+            color: var(--gold);
+        }
+
+        .login-box p {
+            font-size: 0.85em;
+            color: var(--text-light-muted);
+            margin-bottom: 1.5em;
+        }
+
+        .login-box input {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border-dark);
+            border-radius: 6px;
+            padding: 0.75em 1em;
+            color: var(--text-light);
+            font-family: var(--font-body);
+            font-size: 1em;
+            outline: none;
+            margin-bottom: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .login-box input:focus {
+            border-color: var(--gold);
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 0.75em;
+            background: var(--gold);
+            color: #1A1714;
+            border: none;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-box button:hover {
+            background: #D4B87A;
+        }
+
+        .login-box button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .login-error {
+            color: #E06060;
+            font-size: 0.85em;
+            margin-bottom: 1em;
+            display: none;
+        }
+
+        .login-close {
+            position: absolute;
+            top: 1em;
+            right: 1em;
+            background: none;
+            border: none;
+            color: var(--text-light-muted);
+            cursor: pointer;
+            width: auto;
+            padding: 0.5em;
+        }
+
+        .login-close:hover {
+            color: var(--text-light);
+        }
+
         .footer {
             background: #121110;
             padding: clamp(2.5em, 5vh, 4em) clamp(2em, 6vw, 5em);
@@ -1168,6 +1634,7 @@
         <a href="#" class="nav-logo">Haus Michelswirth</a>
         <ul class="nav-links">
             <li><a href="#ueber-uns">Über uns</a></li>
+            <li><a href="#historie">Historie</a></li>
             <li><a href="#raeume">Räumlichkeiten</a></li>
             <li><a href="#ausstattung">Ausstattung</a></li>
             <li><a href="#kontakt">Kontakt</a></li>
@@ -1183,6 +1650,7 @@
     <div class="mobile-overlay">
         <ul class="mobile-nav">
             <li><a href="#ueber-uns">Über uns</a></li>
+            <li><a href="#historie">Historie</a></li>
             <li><a href="#raeume">Räumlichkeiten</a></li>
             <li><a href="#ausstattung">Ausstattung</a></li>
             <li><a href="#kontakt">Kontakt</a></li>
@@ -1198,11 +1666,11 @@
         <div class="hero-content">
             <div class="hero-badge">
                 <span class="hero-badge-dot"></span>
-                Sofort verfügbar
+                <span data-content="hero_badge">Sofort verfügbar</span>
             </div>
-            <h1>Haus<br><em>Michelswirth</em></h1>
-            <p class="hero-subtitle">Etablierte Gastronomie zu verpachten</p>
-            <p class="hero-text">Übernehmen Sie das Haus Michelswirth im historischen Fachwerkhaus — mit 750 m² Gastfläche, Platz für bis zu 184 Personen, elegantem Saal und stilvoller Bar. Bereit für Ihr Konzept.</p>
+            <h1 data-content="hero_title">Haus<br><em>Michelswirth</em></h1>
+            <p class="hero-subtitle" data-content="hero_subtitle">Etablierte Gastronomie zu verpachten</p>
+            <p class="hero-text" data-content="hero_description">Übernehmen Sie das Haus Michelswirth im historischen Fachwerkhaus — mit 750 m² Gastfläche, Platz für bis zu 184 Personen, elegantem Saal und stilvoller Bar. Bereit für Ihr Konzept.</p>
             <a href="#kontakt" class="btn-primary">
                 Besichtigung anfragen
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1217,11 +1685,11 @@
     <!-- INTRODUCTION -->
     <section class="intro section-padding" id="ueber-uns">
         <div class="section-label reveal">Über das Objekt</div>
-        <h2 class="section-heading reveal">Ein Ort mit Charakter<br>und Geschichte</h2>
+        <h2 class="section-heading reveal" data-content="intro_heading">Ein Ort mit Charakter<br>und Geschichte</h2>
         <div class="gold-line reveal" style="margin-top: 1.5em;"></div>
 
         <div class="intro-grid">
-            <div class="intro-main reveal">
+            <div class="intro-main reveal" data-content="intro_text">
                 <p>Das Haus Michelswirth vereint historischen Charme mit moderner Gastronomie-Infrastruktur. Im Herzen eines idyllischen Standorts gelegen, bietet das Fachwerkhaus einen einzigartigen Rahmen für anspruchsvolle kulinarische Konzepte.</p>
                 <p>Auf rund 750 Quadratmetern Gastfläche bietet das Haus Platz für bis zu 184 Personen in verschiedenen Bereichen: zwei Restaurants (bis 24 bzw. 16 Personen), ein Kaminzimmer (bis 14 Personen), ein großer Saal (bis 100 Personen, ideal für Feierlichkeiten ab 40 Personen) sowie eine Terrasse (ca. 30 Personen). Alle Räumlichkeiten befinden sich in einem gepflegten und sofort nutzbaren Zustand. Sprechen Sie uns an — wir zeigen Ihnen gerne alle Räume.</p>
                 <p>Die etablierte Adresse und der hohe Wiedererkennungswert bieten ideale Voraussetzungen für Gastronomen, die ein schlüsselfertiges Objekt mit Charakter suchen.</p>
@@ -1264,6 +1732,96 @@
                 </div>
                 <div class="stat-value">Sofort</div>
                 <div class="stat-label">Verfügbar</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section class="history section-padding" id="historie">
+        <div class="history-intro">
+            <div class="section-label reveal" style="color: var(--gold);">Seit 1627</div>
+            <h2 class="section-heading section-heading-light reveal">Fast 400 Jahre<br>Geschichte</h2>
+        </div>
+
+        <div class="history-carousel reveal" id="history-carousel">
+            <div class="history-slides" id="history-slides">
+                <!-- Slide 1: Die Anfänge -->
+                <div class="history-slide active" data-index="0">
+                    <img src="images/historie-1.jpg" alt="Historische Ansicht des Haus Michelswirth, 17. Jahrhundert" loading="lazy">
+                    <div class="history-overlay">
+                        <div class="history-epoch">Anno 1627</div>
+                        <h3 class="history-title">Die Anfänge — Gründung im Krieg</h3>
+                        <p class="history-text">Mitten im Dreißigjährigen Krieg erhielt Michael zum Markotten — genannt „Michels Jakob" — vom Fürstbischof von Osnabrück die Erlaubnis, in der Bauerschaft Avenwedde ein Kotten zu errichten. Bereits 1663 wurde das Haus als Brauhaus geführt, 1667 der Besitzer offiziell als „Brauer und Bierzapfer" gelistet.</p>
+                    </div>
+                    <div class="history-progress"><div class="history-progress-bar"></div></div>
+                </div>
+
+                <!-- Slide 2: Der heutige Bau -->
+                <div class="history-slide" data-index="1">
+                    <img src="images/historie-2.jpg" alt="Das Fachwerkgebäude Haus Michelswirth, erbaut 1692" loading="lazy">
+                    <div class="history-overlay">
+                        <div class="history-epoch">Anno 1692</div>
+                        <h3 class="history-title">Der heutige Bau entsteht</h3>
+                        <p class="history-text">Das aktuelle Hauptgebäude stammt im Kern aus dem Jahr 1692, wie die Inschrift am Torbogen bezeugt. Über die Jahrhunderte wurde es behutsam erweitert und modernisiert — ohne seinen historischen Charakter zu verlieren. Das markante Fachwerk ist bis heute das Wahrzeichen des Hauses.</p>
+                    </div>
+                    <div class="history-progress"><div class="history-progress-bar"></div></div>
+                </div>
+
+                <!-- Slide 3: Vielseitiger Betrieb -->
+                <div class="history-slide" data-index="2">
+                    <img src="images/historie-3.jpg" alt="Haus Michelswirth als Gastwirtschaft und Bäckerei" loading="lazy">
+                    <div class="history-overlay">
+                        <div class="history-epoch">18. & 19. Jahrhundert</div>
+                        <h3 class="history-title">Bäckerei, Herberge & Pferdehandel</h3>
+                        <p class="history-text">Neben der Gastwirtschaft gab es eine eigene Bäckerei, berühmt für ihr schweres Schwarzbrot — bis zu 30 Pfund pro Laib. Zudem diente das Haus als Herberge für Durchreisende und Fuhrleute sowie als Ort für den Pferdehandel. Ein echter Knotenpunkt des ländlichen Lebens.</p>
+                    </div>
+                    <div class="history-progress"><div class="history-progress-bar"></div></div>
+                </div>
+
+                <!-- Slide 4: Tradition und Geselligkeit -->
+                <div class="history-slide" data-index="3">
+                    <img src="images/historie-4.jpg" alt="Geselliges Leben im Haus Michelswirth" loading="lazy">
+                    <div class="history-overlay">
+                        <div class="history-epoch">Lebendige Tradition</div>
+                        <h3 class="history-title">Das älteste Gütersloher Gasthaus</h3>
+                        <p class="history-text">Der Name leitet sich vom Heiligen Michael ab und ist eng mit der Gütersloher „Michaeliswoche" verknüpft. Über Jahrhunderte war das Haus Schauplatz für Schützenfeste, Theateraufführungen und Kegelsport — ein sozialer Mittelpunkt mit bewegter Geschichte.</p>
+                    </div>
+                    <div class="history-progress"><div class="history-progress-bar"></div></div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="history-nav">
+                <button class="history-arrow" id="history-prev" aria-label="Vorheriges Bild">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+
+                <div class="history-timeline" id="history-timeline">
+                    <button class="history-timeline-step active" data-slide="0">
+                        <span class="history-timeline-pip"></span>
+                        <span class="history-timeline-label">1627</span>
+                    </button>
+                    <button class="history-timeline-step" data-slide="1">
+                        <span class="history-timeline-pip"></span>
+                        <span class="history-timeline-label">1692</span>
+                    </button>
+                    <button class="history-timeline-step" data-slide="2">
+                        <span class="history-timeline-pip"></span>
+                        <span class="history-timeline-label">18./19. Jhd.</span>
+                    </button>
+                    <button class="history-timeline-step" data-slide="3">
+                        <span class="history-timeline-pip"></span>
+                        <span class="history-timeline-label">Tradition</span>
+                    </button>
+                </div>
+
+                <div class="history-counter">
+                    <span class="current-num" id="history-current">01</span> / 04
+                </div>
+
+                <button class="history-arrow" id="history-next" aria-label="Nächstes Bild">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
             </div>
         </div>
     </section>
@@ -1410,11 +1968,11 @@
     <!-- CONTACT -->
     <section class="contact section-padding" id="kontakt">
         <div class="section-label reveal" style="color: var(--gold);">Kontakt</div>
-        <h2 class="section-heading section-heading-light reveal">Interesse geweckt?</h2>
+        <h2 class="section-heading section-heading-light reveal" data-content="contact_heading">Interesse geweckt?</h2>
 
         <div class="contact-grid">
             <div class="contact-info reveal">
-                <h3>Vereinbaren Sie eine unverbindliche Besichtigung und überzeugen Sie sich selbst.</h3>
+                <h3 data-content="contact_description">Vereinbaren Sie eine unverbindliche Besichtigung und überzeugen Sie sich selbst.</h3>
                 <p>Ob gehobene Küche, regionale Spezialitäten oder ein innovatives Gastronomiekonzept — die Räumlichkeiten bieten den idealen Rahmen. Wir freuen uns auf Ihre Anfrage und beraten Sie gerne zu allen Details rund um die Pachtkonditionen.</p>
 
                 <div class="contact-pills">
@@ -1432,9 +1990,14 @@
             <div class="reveal reveal-delay-2">
                 <form class="contact-form" id="contact-form" novalidate>
                     <div class="form-group">
+                        <input type="text" id="vorname" name="vorname" placeholder=" " required>
+                        <label for="vorname">Vorname *</label>
+                        <span class="error-msg">Bitte geben Sie Ihren Vornamen ein.</span>
+                    </div>
+                    <div class="form-group">
                         <input type="text" id="name" name="name" placeholder=" " required>
-                        <label for="name">Name *</label>
-                        <span class="error-msg">Bitte geben Sie Ihren Namen ein.</span>
+                        <label for="name">Nachname *</label>
+                        <span class="error-msg">Bitte geben Sie Ihren Nachnamen ein.</span>
                     </div>
                     <div class="form-group">
                         <input type="email" id="email" name="email" placeholder=" " required>
@@ -1449,6 +2012,13 @@
                         <textarea id="nachricht" name="nachricht" placeholder=" " required rows="4"></textarea>
                         <label for="nachricht">Ihre Nachricht *</label>
                         <span class="error-msg">Bitte hinterlassen Sie uns eine Nachricht.</span>
+                    </div>
+                    <div class="form-group-checkbox" id="datenschutz-group">
+                        <input type="checkbox" id="datenschutz" name="datenschutz" required>
+                        <div>
+                            <label for="datenschutz">Ich habe die <a href="/datenschutz.html" target="_blank">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *</label>
+                            <span class="error-msg">Bitte stimmen Sie der Datenschutzerklärung zu.</span>
+                        </div>
                     </div>
                     <div class="form-submit">
                         <button type="submit" class="btn-primary">
@@ -1467,6 +2037,22 @@
             </div>
         </div>
     </section>
+
+    <!-- LOGIN MODAL -->
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-box" style="position:relative">
+            <button class="login-close" onclick="document.getElementById('login-overlay').classList.remove('show')" aria-label="Schließen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <h3>Admin-Zugang</h3>
+            <p>Bitte Passwort eingeben</p>
+            <div class="login-error" id="login-error">Falsches Passwort.</div>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <input type="password" id="login-password" placeholder="Passwort" autocomplete="current-password" required>
+                <button type="submit" id="login-btn">Anmelden</button>
+            </form>
+        </div>
+    </div>
 
     <!-- FOOTER -->
     <footer class="footer">
@@ -1563,9 +2149,15 @@
             form.querySelectorAll('.form-group').forEach(g => g.classList.remove('error'));
 
             // Validate required fields
+            const vorname = form.querySelector('#vorname');
             const name = form.querySelector('#name');
             const email = form.querySelector('#email');
             const nachricht = form.querySelector('#nachricht');
+
+            if (!vorname.value.trim()) {
+                vorname.closest('.form-group').classList.add('error');
+                valid = false;
+            }
 
             if (!name.value.trim()) {
                 name.closest('.form-group').classList.add('error');
@@ -1582,18 +2174,168 @@
                 valid = false;
             }
 
+            const datenschutz = form.querySelector('#datenschutz');
+            if (!datenschutz.checked) {
+                document.getElementById('datenschutz-group').classList.add('error');
+                valid = false;
+            }
+
             if (valid) {
-                form.style.display = 'none';
-                formSuccess.classList.add('show');
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalHTML = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Wird gesendet\u2026';
+
+                const telefon = form.querySelector('#telefon');
+
+                fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        vorname: vorname.value.trim(),
+                        name: name.value.trim(),
+                        email: email.value.trim(),
+                        telefon: telefon.value.trim(),
+                        nachricht: nachricht.value.trim()
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) return response.json().then(data => { throw new Error(JSON.stringify(data)); });
+                    return response.json();
+                })
+                .then(() => {
+                    form.style.display = 'none';
+                    formSuccess.classList.add('show');
+                })
+                .catch((err) => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalHTML;
+                    alert('Fehler: ' + err.message);
+                });
             }
         });
 
         // Remove error on input
         form.querySelectorAll('input, textarea').forEach(field => {
             field.addEventListener('input', () => {
-                field.closest('.form-group').classList.remove('error');
+                field.closest('.form-group')?.classList.remove('error');
             });
         });
+
+        // Remove error on checkbox change
+        document.getElementById('datenschutz').addEventListener('change', () => {
+            document.getElementById('datenschutz-group').classList.remove('error');
+        });
+
+        /* ═══════════════════════════════════════
+           History Carousel
+        ═══════════════════════════════════════ */
+        (() => {
+            const container = document.getElementById('history-slides');
+            const slides = container.querySelectorAll('.history-slide');
+            const prevBtn = document.getElementById('history-prev');
+            const nextBtn = document.getElementById('history-next');
+            const steps = document.querySelectorAll('.history-timeline-step');
+            const counterEl = document.getElementById('history-current');
+            const total = slides.length;
+            const AUTOPLAY_MS = 6000;
+
+            let current = 0;
+            let autoplayTimer = null;
+            let paused = false;
+
+            function goTo(index) {
+                const prev = current;
+                current = ((index % total) + total) % total;
+
+                // Reset progress bars
+                slides.forEach(s => {
+                    const bar = s.querySelector('.history-progress-bar');
+                    bar.classList.remove('animating');
+                    bar.style.width = '0%';
+                });
+
+                // Crossfade
+                slides[prev].classList.remove('active');
+                slides[current].classList.add('active');
+
+                // Timeline
+                steps.forEach((s, i) => s.classList.toggle('active', i === current));
+
+                // Counter
+                counterEl.textContent = String(current + 1).padStart(2, '0');
+
+                // Start progress on active slide
+                requestAnimationFrame(() => {
+                    const activeBar = slides[current].querySelector('.history-progress-bar');
+                    activeBar.classList.add('animating');
+                });
+
+                resetAutoplay();
+            }
+
+            function next() { goTo(current + 1); }
+            function prev() { goTo(current - 1); }
+
+            function resetAutoplay() {
+                clearTimeout(autoplayTimer);
+                if (!paused) {
+                    autoplayTimer = setTimeout(next, AUTOPLAY_MS);
+                }
+            }
+
+            // Controls
+            prevBtn.addEventListener('click', prev);
+            nextBtn.addEventListener('click', next);
+            steps.forEach(s => s.addEventListener('click', () => goTo(Number(s.dataset.slide))));
+
+            // Pause on hover
+            const carousel = document.getElementById('history-carousel');
+            carousel.addEventListener('mouseenter', () => {
+                paused = true;
+                clearTimeout(autoplayTimer);
+            });
+            carousel.addEventListener('mouseleave', () => {
+                paused = false;
+                resetAutoplay();
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                const rect = carousel.getBoundingClientRect();
+                const inView = rect.top < window.innerHeight && rect.bottom > 0;
+                if (!inView) return;
+                if (e.key === 'ArrowLeft') prev();
+                if (e.key === 'ArrowRight') next();
+            });
+
+            // Touch/swipe
+            let startX = 0, diffX = 0;
+            container.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                diffX = 0;
+                paused = true;
+                clearTimeout(autoplayTimer);
+            }, { passive: true });
+
+            container.addEventListener('touchmove', (e) => {
+                diffX = e.touches[0].clientX - startX;
+            }, { passive: true });
+
+            container.addEventListener('touchend', () => {
+                if (Math.abs(diffX) > 50) {
+                    diffX < 0 ? next() : prev();
+                }
+                paused = false;
+                resetAutoplay();
+            });
+
+            // Start initial progress bar & autoplay
+            requestAnimationFrame(() => {
+                slides[0].querySelector('.history-progress-bar').classList.add('animating');
+            });
+            autoplayTimer = setTimeout(next, AUTOPLAY_MS);
+        })();
 
         /* ═══════════════════════════════════════
            Subtle hero parallax
@@ -1613,6 +2355,82 @@
                 ticking = true;
             }
         }, { passive: true });
+
+        /* ═══════════════════════════════════════
+           Hidden admin login (5 clicks on logo)
+        ═══════════════════════════════════════ */
+        (() => {
+            const logo = document.querySelector('.nav-logo');
+            let clickCount = 0;
+            let clickTimer = null;
+
+            logo.addEventListener('click', (e) => {
+                if (e.target.closest('.nav-logo')) {
+                    clickCount++;
+                    clearTimeout(clickTimer);
+                    clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
+
+                    if (clickCount >= 5) {
+                        clickCount = 0;
+                        if (localStorage.getItem('admin_token')) {
+                            window.location.href = '/admin.html';
+                        } else {
+                            document.getElementById('login-overlay').classList.add('show');
+                            document.getElementById('login-password').focus();
+                        }
+                    }
+                }
+            });
+        })();
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('login-btn');
+            const errorEl = document.getElementById('login-error');
+            const password = document.getElementById('login-password').value;
+
+            btn.disabled = true;
+            btn.textContent = 'Wird geprüft…';
+            errorEl.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password }),
+                });
+                const data = await res.json();
+
+                if (!res.ok) throw new Error(data.error || 'Fehler');
+
+                localStorage.setItem('admin_token', data.token);
+                window.location.href = '/admin.html';
+            } catch {
+                errorEl.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Anmelden';
+            }
+        }
+
+        /* ═══════════════════════════════════════
+           Dynamic content loading from Airtable
+        ═══════════════════════════════════════ */
+        fetch('/api/content')
+            .then(r => r.json())
+            .then(({ content }) => {
+                if (!content) return;
+                document.querySelectorAll('[data-content]').forEach(el => {
+                    const key = el.dataset.content;
+                    if (content[key]) {
+                        if (key === 'intro_text') {
+                            el.innerHTML = content[key].split('\n\n').map(p => `<p>${p}</p>`).join('');
+                        } else {
+                            el.innerHTML = content[key];
+                        }
+                    }
+                });
+            })
+            .catch(() => {});
     </script>
 </body>
 </html>

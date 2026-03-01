@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin — Haus Michelswirth</title>
+    <style>
+        @font-face {
+            font-family: 'DM Sans';
+            src: url('/fonts/DMSans-Variable.ttf') format('truetype');
+            font-weight: 100 900;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Cormorant Garamond';
+            src: url('/fonts/CormorantGaramond-Variable.ttf') format('truetype');
+            font-weight: 300 700;
+            font-display: swap;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #111110;
+            --bg-card: #1A1917;
+            --bg-hover: #222220;
+            --border: #2A2A27;
+            --text: #E8E4DE;
+            --text-muted: #8A8680;
+            --gold: #C9A96E;
+            --gold-dim: rgba(201, 169, 110, 0.15);
+            --red: #E06060;
+            --green: #5CB85C;
+            --font-body: 'DM Sans', system-ui, sans-serif;
+            --font-heading: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* Layout */
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            padding: 1.5em 0;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .sidebar-brand {
+            font-family: var(--font-heading);
+            font-size: 1.3em;
+            font-weight: 500;
+            padding: 0 1.5em 1.5em;
+            border-bottom: 1px solid var(--border);
+            color: var(--gold);
+        }
+
+        .sidebar-brand small {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 0.55em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.3em;
+        }
+
+        .sidebar-nav {
+            padding: 1em 0;
+            flex: 1;
+        }
+
+        .sidebar-nav button {
+            display: flex;
+            align-items: center;
+            gap: 0.75em;
+            width: 100%;
+            padding: 0.75em 1.5em;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .sidebar-nav button:hover {
+            color: var(--text);
+            background: var(--bg-hover);
+        }
+
+        .sidebar-nav button.active {
+            color: var(--gold);
+            background: var(--gold-dim);
+            border-right: 2px solid var(--gold);
+        }
+
+        .sidebar-nav button svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-footer {
+            padding: 1em 1.5em;
+            border-top: 1px solid var(--border);
+        }
+
+        .sidebar-footer button {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .sidebar-footer button:hover {
+            color: var(--red);
+        }
+
+        .main {
+            flex: 1;
+            margin-left: 240px;
+            padding: 2em;
+        }
+
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2em;
+        }
+
+        .main-header h1 {
+            font-family: var(--font-heading);
+            font-size: 1.8em;
+            font-weight: 500;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5em;
+            margin-bottom: 1em;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75em;
+        }
+
+        .card-name {
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .card-date {
+            font-size: 0.8em;
+            color: var(--text-muted);
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1.5em;
+            margin-bottom: 0.75em;
+            font-size: 0.85em;
+            color: var(--text-muted);
+        }
+
+        .card-meta a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .card-meta a:hover {
+            text-decoration: underline;
+        }
+
+        .card-message {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: var(--text);
+            white-space: pre-wrap;
+        }
+
+        /* Content editor */
+        .content-section {
+            margin-bottom: 2.5em;
+        }
+
+        .content-section h2 {
+            font-family: var(--font-heading);
+            font-size: 1.3em;
+            font-weight: 500;
+            margin-bottom: 1em;
+            color: var(--gold);
+        }
+
+        .content-field {
+            margin-bottom: 1.5em;
+        }
+
+        .content-field label {
+            display: block;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 0.5em;
+        }
+
+        .content-field input,
+        .content-field textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.75em 1em;
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 0.95em;
+            outline: none;
+            transition: border-color 0.2s;
+            resize: vertical;
+        }
+
+        .content-field input:focus,
+        .content-field textarea:focus {
+            border-color: var(--gold);
+        }
+
+        .content-field textarea {
+            min-height: 100px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            padding: 0.6em 1.2em;
+            border: none;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: #1A1714;
+            font-weight: 600;
+        }
+
+        .btn-gold:hover {
+            background: #D4B87A;
+        }
+
+        .btn-gold:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--text-muted);
+            color: var(--text);
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.2em 0.6em;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .badge-count {
+            background: var(--gold-dim);
+            color: var(--gold);
+            margin-left: 0.5em;
+        }
+
+        /* Empty state */
+        .empty {
+            text-align: center;
+            padding: 4em 2em;
+            color: var(--text-muted);
+        }
+
+        .empty svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1em;
+            opacity: 0.4;
+        }
+
+        /* Status bar */
+        .status-msg {
+            position: fixed;
+            bottom: 1.5em;
+            right: 1.5em;
+            padding: 0.75em 1.25em;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 500;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .status-msg.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .status-msg.success {
+            background: #1a2e1a;
+            color: var(--green);
+            border: 1px solid #2a4a2a;
+        }
+
+        .status-msg.error {
+            background: #2e1a1a;
+            color: var(--red);
+            border: 1px solid #4a2a2a;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3em;
+            color: var(--text-muted);
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 0.75em;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 0 1em;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 20;
+        }
+
+        .mobile-header span {
+            font-family: var(--font-heading);
+            color: var(--gold);
+            font-size: 1.2em;
+        }
+
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            padding: 0.5em;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-header { display: flex; }
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.open { transform: translateX(0); }
+            .main {
+                margin-left: 0;
+                padding: 56px 1em 2em;
+            }
+        }
+
+        /* Search & filter */
+        .toolbar {
+            display: flex;
+            gap: 0.75em;
+            margin-bottom: 1.5em;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.6em 1em;
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 0.9em;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--gold);
+        }
+
+        .refresh-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.6em 0.8em;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .refresh-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile header -->
+    <div class="mobile-header">
+        <span>Admin</span>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('open')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+    </div>
+
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-brand">
+                Haus Michelswirth
+                <small>Admin-Bereich</small>
+            </div>
+            <div class="sidebar-nav">
+                <button class="active" data-tab="inquiries" onclick="switchTab('inquiries')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    Anfragen
+                    <span class="badge badge-count" id="inquiry-count" style="display:none"></span>
+                </button>
+                <button data-tab="content" onclick="switchTab('content')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    Inhalte
+                </button>
+            </div>
+            <div class="sidebar-footer">
+                <button onclick="logout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Abmelden
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="main">
+            <!-- Inquiries tab -->
+            <div class="tab-content active" id="tab-inquiries">
+                <div class="main-header">
+                    <h1>Kontaktanfragen</h1>
+                </div>
+                <div class="toolbar">
+                    <input type="text" class="search-input" placeholder="Suche nach Name, E-Mail oder Nachricht…" oninput="filterInquiries(this.value)">
+                    <button class="refresh-btn" onclick="loadInquiries()" title="Aktualisieren">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                    </button>
+                </div>
+                <div id="inquiries-list">
+                    <div class="loading"><div class="spinner"></div> Anfragen werden geladen…</div>
+                </div>
+            </div>
+
+            <!-- Content tab -->
+            <div class="tab-content" id="tab-content">
+                <div class="main-header">
+                    <h1>Inhalte bearbeiten</h1>
+                    <button class="btn btn-gold" onclick="saveAllContent()" id="save-content-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Speichern
+                    </button>
+                </div>
+                <div id="content-editor">
+                    <div class="loading"><div class="spinner"></div> Inhalte werden geladen…</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="status-msg" id="status-msg"></div>
+
+    <script>
+    const API_TOKEN = localStorage.getItem('admin_token');
+
+    if (!API_TOKEN) {
+        window.location.href = '/';
+    }
+
+    /* ---- Helpers ---- */
+    async function api(path, options = {}) {
+        const res = await fetch(path, {
+            ...options,
+            headers: {
+                'Authorization': `Bearer ${API_TOKEN}`,
+                'Content-Type': 'application/json',
+                ...options.headers,
+            },
+        });
+        if (res.status === 401) {
+            logout();
+            throw new Error('Session abgelaufen');
+        }
+        return res;
+    }
+
+    function showStatus(message, type = 'success') {
+        const el = document.getElementById('status-msg');
+        el.textContent = message;
+        el.className = `status-msg ${type} show`;
+        setTimeout(() => el.classList.remove('show'), 3000);
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function formatDate(iso) {
+        if (!iso) return '';
+        const d = new Date(iso);
+        return d.toLocaleDateString('de-DE', {
+            day: '2-digit', month: '2-digit', year: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        });
+    }
+
+    /* ---- Navigation ---- */
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.sidebar-nav button').forEach(el => el.classList.remove('active'));
+        document.getElementById(`tab-${tab}`).classList.add('active');
+        document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+        document.querySelector('.sidebar').classList.remove('open');
+    }
+
+    function logout() {
+        localStorage.removeItem('admin_token');
+        window.location.href = '/';
+    }
+
+    /* ---- Inquiries ---- */
+    let allInquiries = [];
+
+    async function loadInquiries() {
+        const container = document.getElementById('inquiries-list');
+        container.innerHTML = '<div class="loading"><div class="spinner"></div> Anfragen werden geladen…</div>';
+
+        try {
+            const res = await api('/api/admin/inquiries');
+            const data = await res.json();
+
+            if (!res.ok) throw new Error(data.error || 'Fehler beim Laden');
+
+            allInquiries = data.records || [];
+            renderInquiries(allInquiries);
+
+            const badge = document.getElementById('inquiry-count');
+            if (allInquiries.length > 0) {
+                badge.textContent = allInquiries.length;
+                badge.style.display = 'inline-block';
+            }
+        } catch (err) {
+            container.innerHTML = `
+                <div class="empty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <p>${escapeHtml(err.message)}</p>
+                </div>`;
+        }
+    }
+
+    function renderInquiries(records) {
+        const container = document.getElementById('inquiries-list');
+
+        if (records.length === 0) {
+            container.innerHTML = `
+                <div class="empty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <p>Keine Anfragen vorhanden.</p>
+                </div>`;
+            return;
+        }
+
+        container.innerHTML = records.map(r => {
+            const f = r.fields;
+            const name = escapeHtml(`${f['Vorname'] || ''} ${f['Nachname'] || ''}`.trim() || 'Unbekannt');
+            const email = f['E-Mail'] || '';
+            const phone = f['Mobil'] || '';
+            const message = f['Nachricht'] || '';
+            const date = formatDate(r.createdTime);
+
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-name">${name}</span>
+                        <span class="card-date">${date}</span>
+                    </div>
+                    <div class="card-meta">
+                        ${email ? `<span><a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></span>` : ''}
+                        ${phone ? `<span>${escapeHtml(phone)}</span>` : ''}
+                    </div>
+                    ${message ? `<div class="card-message">${escapeHtml(message)}</div>` : ''}
+                </div>`;
+        }).join('');
+    }
+
+    function filterInquiries(query) {
+        const q = query.toLowerCase();
+        const filtered = allInquiries.filter(r => {
+            const f = r.fields;
+            const text = `${f['Vorname'] || ''} ${f['Nachname'] || ''} ${f['E-Mail'] || ''} ${f['Nachricht'] || ''} ${f['Mobil'] || ''}`.toLowerCase();
+            return text.includes(q);
+        });
+        renderInquiries(filtered);
+    }
+
+    /* ---- Content Editor ---- */
+    const CONTENT_FIELDS = [
+        { section: 'Hero', fields: [
+            { key: 'hero_badge', label: 'Badge-Text', type: 'input', placeholder: 'z.B. Sofort verfügbar' },
+            { key: 'hero_title', label: 'Überschrift', type: 'input', placeholder: 'z.B. Haus Michelswirth' },
+            { key: 'hero_subtitle', label: 'Untertitel', type: 'input', placeholder: 'z.B. Etablierte Gastronomie zu verpachten' },
+            { key: 'hero_description', label: 'Beschreibung', type: 'textarea', placeholder: 'Hero-Beschreibungstext' },
+        ]},
+        { section: 'Über uns', fields: [
+            { key: 'intro_heading', label: 'Überschrift', type: 'input', placeholder: 'z.B. Ein Ort mit Charakter und Geschichte' },
+            { key: 'intro_text', label: 'Haupttext', type: 'textarea', placeholder: 'Beschreibungstext über das Objekt' },
+        ]},
+        { section: 'Kontakt', fields: [
+            { key: 'contact_heading', label: 'Überschrift', type: 'input', placeholder: 'z.B. Interesse geweckt?' },
+            { key: 'contact_description', label: 'Beschreibungstext', type: 'textarea', placeholder: 'Text im Kontaktbereich' },
+            { key: 'contact_email', label: 'E-Mail-Adresse', type: 'input', placeholder: 'z.B. sagemueller@haus-michelswirth.de' },
+            { key: 'contact_phone', label: 'Telefonnummer', type: 'input', placeholder: 'z.B. +49 5401 XXX XXXX' },
+        ]},
+    ];
+
+    let contentRecords = {};
+
+    async function loadContent() {
+        const container = document.getElementById('content-editor');
+        container.innerHTML = '<div class="loading"><div class="spinner"></div> Inhalte werden geladen…</div>';
+
+        try {
+            const res = await api('/api/admin/content');
+            const data = await res.json();
+
+            if (!res.ok) throw new Error(data.error || 'Fehler beim Laden');
+
+            contentRecords = {};
+            for (const record of (data.records || [])) {
+                const key = record.fields['Key'];
+                if (key) {
+                    contentRecords[key] = {
+                        id: record.id,
+                        value: record.fields['Value'] || '',
+                    };
+                }
+            }
+
+            renderContentEditor();
+        } catch (err) {
+            container.innerHTML = `
+                <div class="empty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <p>${escapeHtml(err.message)}</p>
+                    <p style="margin-top:0.5em;font-size:0.85em">Stelle sicher, dass die Umgebungsvariable AIRTABLE_CONTENT_TABLE_ID gesetzt ist.</p>
+                </div>`;
+        }
+    }
+
+    function renderContentEditor() {
+        const container = document.getElementById('content-editor');
+        container.innerHTML = CONTENT_FIELDS.map(section => `
+            <div class="content-section">
+                <h2>${section.section}</h2>
+                ${section.fields.map(f => `
+                    <div class="content-field">
+                        <label for="content-${f.key}">${f.label}</label>
+                        ${f.type === 'textarea'
+                            ? `<textarea id="content-${f.key}" data-key="${f.key}" placeholder="${f.placeholder}">${escapeHtml(contentRecords[f.key]?.value || '')}</textarea>`
+                            : `<input type="text" id="content-${f.key}" data-key="${f.key}" placeholder="${f.placeholder}" value="${escapeHtml(contentRecords[f.key]?.value || '')}">`
+                        }
+                    </div>
+                `).join('')}
+            </div>
+        `).join('');
+    }
+
+    async function saveAllContent() {
+        const btn = document.getElementById('save-content-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<div class="spinner" style="width:14px;height:14px;margin:0"></div> Speichern…';
+
+        try {
+            const fields = document.querySelectorAll('[data-key]');
+            const promises = [];
+
+            for (const field of fields) {
+                const key = field.dataset.key;
+                const value = field.value;
+                const existing = contentRecords[key];
+
+                if (existing && existing.value === value) continue;
+                if (!existing && !value) continue;
+
+                promises.push(
+                    api('/api/admin/content', {
+                        method: 'PUT',
+                        body: JSON.stringify({
+                            id: existing?.id || null,
+                            key,
+                            value,
+                        }),
+                    }).then(async res => {
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.error || 'Fehler');
+                        contentRecords[key] = {
+                            id: data.id,
+                            value: data.fields?.['Value'] || value,
+                        };
+                    })
+                );
+            }
+
+            if (promises.length === 0) {
+                showStatus('Keine Änderungen vorhanden.');
+            } else {
+                await Promise.all(promises);
+                showStatus(`${promises.length} Inhalt${promises.length > 1 ? 'e' : ''} gespeichert.`);
+            }
+        } catch (err) {
+            showStatus('Fehler beim Speichern: ' + err.message, 'error');
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Speichern';
+    }
+
+    /* ---- Init ---- */
+    loadInquiries();
+    loadContent();
+    </script>
+</body>
+</html>
