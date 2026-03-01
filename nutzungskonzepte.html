@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alternative Nutzungskonzepte — Haus Michelswirth</title>
+    <meta name="description" content="Haus Michelswirth — Historisches Fachwerkhaus mit vielfältigen Nutzungsmöglichkeiten. Wir sind offen für kreative Konzepte jenseits der klassischen Gastronomie.">
+    <style>
+        @font-face {
+            font-family: 'Cormorant Garamond';
+            src: url('fonts/CormorantGaramond-Variable.ttf') format('truetype');
+            font-weight: 300 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Cormorant Garamond';
+            src: url('fonts/CormorantGaramond-Italic-Variable.ttf') format('truetype');
+            font-weight: 300 600;
+            font-style: italic;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'DM Sans';
+            src: url('fonts/DMSans-Variable.ttf') format('truetype');
+            font-weight: 300 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'DM Sans';
+            src: url('fonts/DMSans-Italic-Variable.ttf') format('truetype');
+            font-weight: 300 600;
+            font-style: italic;
+            font-display: swap;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #FAF7F2;
+            --cream-dark: #F0EBE3;
+            --dark: #1A1714;
+            --dark-soft: #252220;
+            --dark-medium: #2E2A27;
+            --gold: #C9A96E;
+            --gold-light: #D4BA85;
+            --gold-dark: #A8894E;
+            --gold-glow: rgba(201, 169, 110, 0.15);
+            --gold-subtle: rgba(201, 169, 110, 0.08);
+            --text-dark: #1A1714;
+            --text-body: #4A4540;
+            --text-muted: #8A8580;
+            --text-light: #F5F2ED;
+            --text-light-muted: rgba(245, 242, 237, 0.6);
+            --border-light: rgba(26, 23, 20, 0.08);
+            --border-dark: rgba(245, 242, 237, 0.12);
+            --border-gold: rgba(201, 169, 110, 0.25);
+            --font-heading: 'Cormorant Garamond', 'Georgia', serif;
+            --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-out: cubic-bezier(0, 0, 0.2, 1);
+            --radius: 10px;
+            --radius-lg: 16px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-weight: 400;
+            color: var(--text-body);
+            background: var(--dark);
+            line-height: 1.7;
+            font-size: clamp(15px, 1.05vw, 17px);
+            overflow-x: hidden;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ═══════════════════════════════════════
+           NAVIGATION
+        ═══════════════════════════════════════ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5em clamp(2em, 5vw, 5em);
+            transition: all 0.4s var(--ease);
+        }
+
+        .nav.scrolled {
+            background: rgba(26, 23, 20, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding-top: 1em;
+            padding-bottom: 1em;
+            box-shadow: 0 1px 0 var(--border-dark);
+        }
+
+        .nav-logo {
+            font-family: var(--font-heading);
+            font-size: clamp(20px, 2vw, 26px);
+            font-weight: 400;
+            color: var(--text-light);
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: clamp(1.5em, 2.5vw, 3em);
+        }
+
+        .nav-links a {
+            color: var(--text-light-muted);
+            font-size: 0.8em;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--gold);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-light);
+            transition: all 0.3s var(--ease);
+        }
+
+        .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 23, 20, 0.97);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mobile-overlay.open {
+            display: flex;
+        }
+
+        .mobile-nav {
+            list-style: none;
+            text-align: center;
+        }
+
+        .mobile-nav li {
+            margin-bottom: 1.5em;
+        }
+
+        .mobile-nav a {
+            font-family: var(--font-heading);
+            font-size: clamp(28px, 6vw, 42px);
+            color: var(--text-light);
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        .mobile-nav a:hover {
+            color: var(--gold);
+        }
+
+        /* ═══════════════════════════════════════
+           HERO
+        ═══════════════════════════════════════ */
+        .hero {
+            position: relative;
+            height: 70vh;
+            min-height: 450px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(26, 23, 20, 0.2) 0%, rgba(26, 23, 20, 0.85) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: clamp(2em, 5vw, 4em) clamp(2em, 5vw, 5em);
+            max-width: 800px;
+        }
+
+        .hero-label {
+            display: inline-block;
+            font-size: 0.75em;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.8em;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 400;
+            color: var(--text-light);
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+        }
+
+        .hero p {
+            color: var(--text-light-muted);
+            font-size: clamp(15px, 1.1vw, 18px);
+            max-width: 560px;
+            margin-top: 1em;
+            line-height: 1.7;
+        }
+
+        /* ═══════════════════════════════════════
+           SECTION BASICS
+        ═══════════════════════════════════════ */
+        .section-padding {
+            padding: clamp(4em, 8vh, 8em) clamp(2em, 5vw, 5em);
+        }
+
+        .section-label {
+            font-size: 0.75em;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.8em;
+            text-align: center;
+        }
+
+        .section-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(32px, 4vw, 56px);
+            font-weight: 400;
+            color: var(--text-dark);
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+            text-align: center;
+        }
+
+        .section-heading-light {
+            color: var(--text-light);
+        }
+
+        /* ═══════════════════════════════════════
+           INTRO
+        ═══════════════════════════════════════ */
+        .intro {
+            background: var(--dark-soft);
+            color: var(--text-light);
+        }
+
+        .intro-text {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .intro-text p {
+            color: var(--text-light-muted);
+            font-size: 1em;
+            line-height: 1.8;
+        }
+
+        .intro-text p + p {
+            margin-top: 1em;
+        }
+
+        /* ═══════════════════════════════════════
+           CONCEPT CARDS
+        ═══════════════════════════════════════ */
+        .concepts {
+            background: var(--dark);
+        }
+
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(1.2em, 2vw, 2em);
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .concept-card {
+            background: var(--dark-soft);
+            border: 1px solid var(--border-dark);
+            border-radius: var(--radius-lg);
+            padding: clamp(1.8em, 2.5vw, 2.5em);
+            transition: all 0.4s var(--ease);
+        }
+
+        .concept-card:hover {
+            border-color: var(--border-gold);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .concept-icon {
+            width: 44px;
+            height: 44px;
+            color: var(--gold);
+            margin-bottom: 1.2em;
+        }
+
+        .concept-card h3 {
+            font-family: var(--font-heading);
+            font-size: clamp(22px, 2vw, 28px);
+            font-weight: 400;
+            color: var(--text-light);
+            margin-bottom: 0.5em;
+        }
+
+        .concept-card p {
+            color: var(--text-light-muted);
+            font-size: 0.9em;
+            line-height: 1.7;
+        }
+
+        /* ═══════════════════════════════════════
+           OPEN SECTION
+        ═══════════════════════════════════════ */
+        .open-section {
+            background: var(--dark-soft);
+            text-align: center;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .open-section-inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .open-section-inner p {
+            color: var(--text-light-muted);
+            font-size: 1em;
+            line-height: 1.8;
+        }
+
+        .open-section-inner p + p {
+            margin-top: 1em;
+        }
+
+        /* ═══════════════════════════════════════
+           PROPERTY FACTS
+        ═══════════════════════════════════════ */
+        .facts {
+            background: var(--dark);
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: clamp(1.5em, 2.5vw, 2.5em);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .fact {
+            text-align: center;
+        }
+
+        .fact-value {
+            font-family: var(--font-heading);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 400;
+            color: var(--gold);
+            line-height: 1.1;
+            margin-bottom: 0.2em;
+        }
+
+        .fact-label {
+            color: var(--text-light-muted);
+            font-size: 0.85em;
+            letter-spacing: 0.04em;
+        }
+
+        /* ═══════════════════════════════════════
+           CTA
+        ═══════════════════════════════════════ */
+        .cta-section {
+            background: var(--dark-soft);
+            text-align: center;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .cta-section p {
+            color: var(--text-light-muted);
+            font-size: 1em;
+            margin-bottom: 1.5em;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1em;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            background: var(--gold);
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 0.85em;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.9em 2.2em;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease);
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            color: var(--gold);
+            font-weight: 500;
+            font-size: 0.85em;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 1px solid var(--border-gold);
+            padding: 0.9em 2.2em;
+            border-radius: 50px;
+            transition: all 0.3s var(--ease);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        /* ═══════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════ */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2em clamp(2em, 5vw, 5em);
+            border-top: 1px solid var(--border-dark);
+            color: var(--text-light-muted);
+            font-size: 0.8em;
+        }
+
+        .footer-brand {
+            font-family: var(--font-heading);
+            font-size: 1.4em;
+            color: var(--text-light);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2em;
+        }
+
+        .footer-links a {
+            color: var(--text-light-muted);
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        /* ═══════════════════════════════════════
+           REVEAL ANIMATION
+        ═══════════════════════════════════════ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+        .reveal-delay-6 { transition-delay: 0.6s; }
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════ */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+
+            .concepts-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .facts-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2em;
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                gap: 1em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .concepts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                height: 55vh;
+                min-height: 350px;
+            }
+
+            .hero h1 {
+                font-size: clamp(32px, 9vw, 48px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="nav scrolled" role="navigation" aria-label="Hauptnavigation">
+        <a href="index.html" class="nav-logo">Haus Michelswirth</a>
+        <ul class="nav-links">
+            <li><a href="index.html#ueber-uns">Über uns</a></li>
+            <li><a href="index.html#historie">Historie</a></li>
+            <li><a href="index.html#raeume">Räumlichkeiten</a></li>
+            <li><a href="wohnung.html">Wohnung</a></li>
+            <li><a href="nutzungskonzepte.html" class="active">Konzepte</a></li>
+            <li><a href="index.html#kontakt">Kontakt</a></li>
+        </ul>
+        <div class="hamburger" aria-label="Menü öffnen" role="button" tabindex="0">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- MOBILE OVERLAY -->
+    <div class="mobile-overlay">
+        <ul class="mobile-nav">
+            <li><a href="index.html#ueber-uns">Über uns</a></li>
+            <li><a href="index.html#historie">Historie</a></li>
+            <li><a href="index.html#raeume">Räumlichkeiten</a></li>
+            <li><a href="wohnung.html">Wohnung</a></li>
+            <li><a href="nutzungskonzepte.html" class="active">Konzepte</a></li>
+            <li><a href="index.html#kontakt">Kontakt</a></li>
+        </ul>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="images/aussen.jpg" alt="Haus Michelswirth — Historisches Fachwerkhaus mit Außenansicht">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-label reveal">Alternative Nutzungskonzepte</div>
+            <h1 class="reveal">Ein Haus, viele Möglichkeiten</h1>
+            <p class="reveal">Haus Michelswirth bietet weit mehr als Gastronomie. Über 750 m² Nutzfläche, historischer Charakter und eine erstklassige Lage — wir sind offen für Ihre Ideen.</p>
+        </div>
+    </section>
+
+    <!-- INTRO -->
+    <section class="intro section-padding">
+        <div class="intro-text reveal">
+            <p>Das historische Fachwerkhaus an der Dalke hat in seiner jahrhundertelangen Geschichte immer wieder neue Funktionen übernommen — als Gastwirtschaft, Veranstaltungsort, Treffpunkt und Begegnungsstätte. Diese Vielseitigkeit ist kein Zufall, sondern liegt in der Substanz des Gebäudes begründet.</p>
+            <p>Wir glauben, dass Haus Michelswirth auch in Zukunft Raum für ganz unterschiedliche Konzepte bieten kann. Deshalb sind wir ausdrücklich offen für alternative Nutzungsideen — ob gewerblich, kulturell oder sozial. Sprechen Sie uns gerne an.</p>
+        </div>
+    </section>
+
+    <!-- CONCEPT CARDS -->
+    <section class="concepts section-padding">
+        <div style="margin-bottom: clamp(2em, 4vh, 3em);">
+            <div class="section-label reveal" style="color: var(--gold);">Denkbare Konzepte</div>
+            <h2 class="section-heading section-heading-light reveal">Was hier<br>entstehen könnte</h2>
+        </div>
+
+        <div class="concepts-grid">
+            <div class="concept-card reveal reveal-delay-1">
+                <div class="concept-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <h3>Event-Location</h3>
+                <p>Hochzeiten, Firmenfeiern, Kulturabende — die flexiblen Räumlichkeiten mit bis zu 184 Plätzen bieten den perfekten Rahmen für unvergessliche Veranstaltungen.</p>
+            </div>
+            <div class="concept-card reveal reveal-delay-2">
+                <div class="concept-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
+                <h3>Co-Working &amp; Kreativraum</h3>
+                <p>Arbeiten im historischen Ambiente — inspirierende Räume für Start-ups, Freelancer oder kreative Teams, die das Besondere suchen.</p>
+            </div>
+            <div class="concept-card reveal reveal-delay-3">
+                <div class="concept-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <h3>Boutique-Hotel &amp; Pension</h3>
+                <p>Übernachten im Fachwerkhaus — mit der vorhandenen Betreiberwohnung und den großzügigen Räumen lässt sich ein einzigartiges Übernachtungskonzept realisieren.</p>
+            </div>
+            <div class="concept-card reveal reveal-delay-4">
+                <div class="concept-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <h3>Kultur &amp; Begegnung</h3>
+                <p>Lesungen, Ausstellungen, Workshops — als Kulturzentrum oder Begegnungsstätte könnte das Haus wieder zum sozialen Mittelpunkt werden, der es historisch immer war.</p>
+            </div>
+            <div class="concept-card reveal reveal-delay-5">
+                <div class="concept-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                </div>
+                <h3>Praxis &amp; Therapie</h3>
+                <p>Arztpraxen, Physiotherapie, psychologische Beratung — die ruhige Lage und die vielen separaten Räume eignen sich hervorragend für Gesundheitsdienstleistungen.</p>
+            </div>
+            <div class="concept-card reveal reveal-delay-6">
+                <div class="concept-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <h3>Ihr eigenes Konzept</h3>
+                <p>Sie haben eine ganz andere Idee? Umso besser. Wir sind grundsätzlich offen und neugierig — lassen Sie uns gemeinsam herausfinden, ob Haus Michelswirth der richtige Ort dafür ist.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROPERTY FACTS -->
+    <section class="facts section-padding">
+        <div style="margin-bottom: clamp(2em, 4vh, 3em);">
+            <div class="section-label reveal" style="color: var(--gold);">Das Gebäude</div>
+            <h2 class="section-heading section-heading-light reveal">Zahlen &amp; Fakten</h2>
+        </div>
+
+        <div class="facts-grid">
+            <div class="fact reveal reveal-delay-1">
+                <div class="fact-value">750+</div>
+                <div class="fact-label">m² Nutzfläche</div>
+            </div>
+            <div class="fact reveal reveal-delay-2">
+                <div class="fact-value">45</div>
+                <div class="fact-label">Parkplätze</div>
+            </div>
+            <div class="fact reveal reveal-delay-3">
+                <div class="fact-value">184</div>
+                <div class="fact-label">Plätze innen</div>
+            </div>
+            <div class="fact reveal reveal-delay-4">
+                <div class="fact-value">120</div>
+                <div class="fact-label">m² Wohnung optional</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OPEN SECTION -->
+    <section class="open-section section-padding">
+        <div class="open-section-inner">
+            <div class="section-label reveal" style="color: var(--gold);">Offenheit</div>
+            <h2 class="section-heading section-heading-light reveal">Wir sind offen<br>für alles</h2>
+            <br>
+            <p class="reveal">Die hier gezeigten Konzepte sind nur Beispiele und Denkanstöße. Haus Michelswirth ist ein Ort mit Geschichte und Potenzial — und wir möchten, dass er auch in Zukunft lebendig bleibt.</p>
+            <p class="reveal">Ob Gastronomie, Gewerbe, Kultur oder etwas völlig anderes: Wenn Sie eine Idee haben, die zu diesem besonderen Haus passen könnte, freuen wir uns auf Ihre Nachricht. Gemeinsam finden wir heraus, was möglich ist.</p>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section section-padding">
+        <div class="section-label reveal" style="color: var(--gold);">Nächster Schritt</div>
+        <h2 class="section-heading section-heading-light reveal">Lassen Sie uns<br>ins Gespräch kommen</h2>
+        <p class="reveal">Erzählen Sie uns von Ihrer Idee — unverbindlich und unkompliziert. Wir melden uns zeitnah bei Ihnen.</p>
+        <div class="cta-buttons reveal">
+            <a href="index.html#kontakt" class="btn-primary">
+                Kontakt aufnehmen
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="index.html" class="btn-secondary">
+                Zurück zur Übersicht
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-brand">Haus Michelswirth</div>
+        <div class="footer-center">&copy; 2026 Sagemüller Grundbesitz eGbR. Alle Rechte vorbehalten.</div>
+        <div class="footer-links">
+            <a href="impressum.html">Impressum</a>
+            <a href="datenschutz.html">Datenschutz</a>
+        </div>
+    </footer>
+
+    <script>
+        /* Scroll Reveal */
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '-4% 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        /* Nav scroll effect */
+        const nav = document.querySelector('.nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 80);
+        }, { passive: true });
+
+        /* Mobile hamburger */
+        const hamburger = document.querySelector('.hamburger');
+        const mobileOverlay = document.querySelector('.mobile-overlay');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileOverlay.classList.toggle('open');
+            document.body.style.overflow = mobileOverlay.classList.contains('open') ? 'hidden' : '';
+        });
+
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileOverlay.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+    </script>
+</body>
+</html>
