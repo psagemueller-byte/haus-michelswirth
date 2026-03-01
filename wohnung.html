@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Betreiberwohnung — Haus Michelswirth</title>
+    <meta name="description" content="Hochwertig ausgestattete Betreiberwohnung mit ca. 120 m² im historischen Fachwerkhaus — optional zum Pachtobjekt hinzubuchbar.">
+    <style>
+        @font-face {
+            font-family: 'Cormorant Garamond';
+            src: url('fonts/CormorantGaramond-Variable.ttf') format('truetype');
+            font-weight: 300 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Cormorant Garamond';
+            src: url('fonts/CormorantGaramond-Italic-Variable.ttf') format('truetype');
+            font-weight: 300 600;
+            font-style: italic;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'DM Sans';
+            src: url('fonts/DMSans-Variable.ttf') format('truetype');
+            font-weight: 300 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'DM Sans';
+            src: url('fonts/DMSans-Italic-Variable.ttf') format('truetype');
+            font-weight: 300 600;
+            font-style: italic;
+            font-display: swap;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #FAF7F2;
+            --cream-dark: #F0EBE3;
+            --dark: #1A1714;
+            --dark-soft: #252220;
+            --dark-medium: #2E2A27;
+            --gold: #C9A96E;
+            --gold-light: #D4BA85;
+            --gold-dark: #A8894E;
+            --gold-glow: rgba(201, 169, 110, 0.15);
+            --gold-subtle: rgba(201, 169, 110, 0.08);
+            --text-dark: #1A1714;
+            --text-body: #4A4540;
+            --text-muted: #8A8580;
+            --text-light: #F5F2ED;
+            --text-light-muted: rgba(245, 242, 237, 0.6);
+            --border-light: rgba(26, 23, 20, 0.08);
+            --border-dark: rgba(245, 242, 237, 0.12);
+            --border-gold: rgba(201, 169, 110, 0.25);
+            --font-heading: 'Cormorant Garamond', 'Georgia', serif;
+            --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-out: cubic-bezier(0, 0, 0.2, 1);
+            --radius: 10px;
+            --radius-lg: 16px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-weight: 400;
+            color: var(--text-body);
+            background: var(--dark);
+            line-height: 1.7;
+            font-size: clamp(15px, 1.05vw, 17px);
+            overflow-x: hidden;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ═══════════════════════════════════════
+           NAVIGATION
+        ═══════════════════════════════════════ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5em clamp(2em, 5vw, 5em);
+            transition: all 0.4s var(--ease);
+        }
+
+        .nav.scrolled {
+            background: rgba(26, 23, 20, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding-top: 1em;
+            padding-bottom: 1em;
+            box-shadow: 0 1px 0 var(--border-dark);
+        }
+
+        .nav-logo {
+            font-family: var(--font-heading);
+            font-size: clamp(20px, 2vw, 26px);
+            font-weight: 400;
+            color: var(--text-light);
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: clamp(1.5em, 2.5vw, 3em);
+        }
+
+        .nav-links a {
+            color: var(--text-light-muted);
+            font-size: 0.8em;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--gold);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-light);
+            transition: all 0.3s var(--ease);
+        }
+
+        .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 23, 20, 0.97);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mobile-overlay.open {
+            display: flex;
+        }
+
+        .mobile-nav {
+            list-style: none;
+            text-align: center;
+        }
+
+        .mobile-nav li {
+            margin-bottom: 1.5em;
+        }
+
+        .mobile-nav a {
+            font-family: var(--font-heading);
+            font-size: clamp(28px, 6vw, 42px);
+            color: var(--text-light);
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        .mobile-nav a:hover {
+            color: var(--gold);
+        }
+
+        /* ═══════════════════════════════════════
+           HERO
+        ═══════════════════════════════════════ */
+        .hero {
+            position: relative;
+            height: 70vh;
+            min-height: 450px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(26, 23, 20, 0.2) 0%, rgba(26, 23, 20, 0.85) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: clamp(2em, 5vw, 4em) clamp(2em, 5vw, 5em);
+            max-width: 800px;
+        }
+
+        .hero-label {
+            display: inline-block;
+            font-size: 0.75em;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.8em;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 400;
+            color: var(--text-light);
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+        }
+
+        .hero p {
+            color: var(--text-light-muted);
+            font-size: clamp(15px, 1.1vw, 18px);
+            max-width: 520px;
+            margin-top: 1em;
+            line-height: 1.7;
+        }
+
+        /* ═══════════════════════════════════════
+           SECTION BASICS
+        ═══════════════════════════════════════ */
+        .section-padding {
+            padding: clamp(4em, 8vh, 8em) clamp(2em, 5vw, 5em);
+        }
+
+        .section-label {
+            font-size: 0.75em;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.8em;
+            text-align: center;
+        }
+
+        .section-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(32px, 4vw, 56px);
+            font-weight: 400;
+            color: var(--text-dark);
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+            text-align: center;
+        }
+
+        .section-heading-light {
+            color: var(--text-light);
+        }
+
+        /* ═══════════════════════════════════════
+           FEATURES
+        ═══════════════════════════════════════ */
+        .features {
+            background: var(--dark-soft);
+            color: var(--text-light);
+        }
+
+        .features-intro {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 3em;
+        }
+
+        .features-intro p {
+            color: var(--text-light-muted);
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+
+        .features-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2em;
+            margin-top: 1.5em;
+            flex-wrap: wrap;
+        }
+
+        .features-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            color: var(--gold-light);
+            font-size: 0.85em;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .features-badge svg {
+            flex-shrink: 0;
+        }
+
+        /* ═══════════════════════════════════════
+           GALLERY
+        ═══════════════════════════════════════ */
+        .gallery {
+            background: var(--dark);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.75em, 1.2vw, 1.2em);
+        }
+
+        .gallery-card {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 4 / 3;
+        }
+
+        .gallery-card.featured {
+            grid-column: 1 / -1;
+            aspect-ratio: 21 / 9;
+        }
+
+        .gallery-card.wide {
+            grid-column: span 2;
+            aspect-ratio: 16 / 9;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s var(--ease);
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(26, 23, 20, 0.7) 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: clamp(1.2em, 2vw, 2em);
+            opacity: 0;
+            transition: opacity 0.5s var(--ease);
+        }
+
+        .gallery-card:hover .gallery-card-overlay {
+            opacity: 1;
+        }
+
+        .gallery-card-label {
+            font-family: var(--font-heading);
+            font-size: clamp(18px, 1.8vw, 26px);
+            font-weight: 400;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        /* ═══════════════════════════════════════
+           ROOMS DETAIL
+        ═══════════════════════════════════════ */
+        .rooms {
+            background: var(--dark-soft);
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(1.5em, 2.5vw, 2.5em);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .room-card {
+            text-align: center;
+        }
+
+        .room-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1em;
+            color: var(--gold);
+        }
+
+        .room-card h3 {
+            font-family: var(--font-heading);
+            font-size: clamp(22px, 2vw, 28px);
+            font-weight: 400;
+            color: var(--text-light);
+            margin-bottom: 0.5em;
+        }
+
+        .room-card p {
+            color: var(--text-light-muted);
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        /* ═══════════════════════════════════════
+           CTA
+        ═══════════════════════════════════════ */
+        .cta-section {
+            background: var(--dark);
+            text-align: center;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .cta-section p {
+            color: var(--text-light-muted);
+            font-size: 1em;
+            margin-bottom: 1.5em;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1em;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            background: var(--gold);
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 0.85em;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.9em 2.2em;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease);
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+            color: var(--gold);
+            font-weight: 500;
+            font-size: 0.85em;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 1px solid var(--border-gold);
+            padding: 0.9em 2.2em;
+            border-radius: 50px;
+            transition: all 0.3s var(--ease);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        /* ═══════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════ */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2em clamp(2em, 5vw, 5em);
+            border-top: 1px solid var(--border-dark);
+            color: var(--text-light-muted);
+            font-size: 0.8em;
+        }
+
+        .footer-brand {
+            font-family: var(--font-heading);
+            font-size: 1.4em;
+            color: var(--text-light);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2em;
+        }
+
+        .footer-links a {
+            color: var(--text-light-muted);
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        /* ═══════════════════════════════════════
+           REVEAL ANIMATION
+        ═══════════════════════════════════════ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* ═══════════════════════════════════════
+           LIGHTBOX
+        ═══════════════════════════════════════ */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(26, 23, 20, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            justify-content: center;
+            align-items: center;
+            padding: 2em;
+            cursor: zoom-out;
+        }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: var(--radius);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 1.5em;
+            right: 1.5em;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .lightbox-close:hover {
+            opacity: 1;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-light);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .lightbox-prev { left: 1.5em; }
+        .lightbox-next { right: 1.5em; }
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════ */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .gallery-card.featured {
+                grid-column: 1 / -1;
+                aspect-ratio: 16 / 10;
+            }
+
+            .gallery-card.wide {
+                grid-column: 1 / -1;
+                aspect-ratio: 16 / 10;
+            }
+
+            .gallery-card-overlay {
+                opacity: 1;
+            }
+
+            .rooms-grid {
+                grid-template-columns: 1fr;
+                gap: 2em;
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                gap: 1em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-card.wide {
+                grid-column: 1;
+                aspect-ratio: 4 / 3;
+            }
+
+            .hero {
+                height: 55vh;
+                min-height: 350px;
+            }
+
+            .hero h1 {
+                font-size: clamp(32px, 9vw, 48px);
+            }
+
+            .lightbox-nav {
+                width: 36px;
+                height: 36px;
+            }
+
+            .lightbox-prev { left: 0.75em; }
+            .lightbox-next { right: 0.75em; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="nav scrolled" role="navigation" aria-label="Hauptnavigation">
+        <a href="index.html" class="nav-logo">Haus Michelswirth</a>
+        <ul class="nav-links">
+            <li><a href="index.html#ueber-uns">Über uns</a></li>
+            <li><a href="index.html#historie">Historie</a></li>
+            <li><a href="index.html#raeume">Räumlichkeiten</a></li>
+            <li><a href="wohnung.html" class="active">Wohnung</a></li>
+            <li><a href="index.html#ausstattung">Ausstattung</a></li>
+            <li><a href="index.html#kontakt">Kontakt</a></li>
+        </ul>
+        <div class="hamburger" aria-label="Menü öffnen" role="button" tabindex="0">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- MOBILE OVERLAY -->
+    <div class="mobile-overlay">
+        <ul class="mobile-nav">
+            <li><a href="index.html#ueber-uns">Über uns</a></li>
+            <li><a href="index.html#historie">Historie</a></li>
+            <li><a href="index.html#raeume">Räumlichkeiten</a></li>
+            <li><a href="wohnung.html" class="active">Wohnung</a></li>
+            <li><a href="index.html#ausstattung">Ausstattung</a></li>
+            <li><a href="index.html#kontakt">Kontakt</a></li>
+        </ul>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="images/Wohnzimmer_4.JPEG" alt="Offener Wohn- und Essbereich der Betreiberwohnung">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-label reveal">Betreiberwohnung</div>
+            <h1 class="reveal">Wohnen, wo Sie arbeiten</h1>
+            <p class="reveal">120 m² hochwertig ausgestattete Wohnung im Obergeschoss des historischen Fachwerkhauses — optional zum Pachtobjekt hinzubuchbar.</p>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features section-padding">
+        <div class="features-intro reveal">
+            <p>Im Obergeschoss des Haus Michelswirth befindet sich eine voll möblierte Betreiberwohnung mit modernem Design und historischem Fachwerk-Charme. Offener Wohn- und Essbereich mit Designerküche, großzügiges Schlafzimmer, Gästezimmer, gemütliches Kaminzimmer und ein stilvolles Entrée.</p>
+            <div class="features-badges">
+                <div class="features-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                    ca. 120 m²
+                </div>
+                <div class="features-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"/><path d="M9 22V12h6v10"/><path d="M2 10.6L12 2l10 8.6"/></svg>
+                    Voll möbliert
+                </div>
+                <div class="features-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Optional mietbar
+                </div>
+                <div class="features-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    Sofort bezugsfertig
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery section-padding">
+        <div style="margin-bottom: clamp(2em, 4vh, 3em);">
+            <div class="section-label reveal" style="color: var(--gold);">Rundgang</div>
+            <h2 class="section-heading section-heading-light reveal">Alle Räume<br>im Überblick</h2>
+        </div>
+
+        <div class="gallery-grid">
+            <figure class="gallery-card featured reveal" data-lightbox="0">
+                <img src="images/Wohnzimmer_4.JPEG" alt="Offener Wohn- und Essbereich mit Designerküche und Holzbalken unter dem Dach" loading="lazy">
+                <div class="gallery-card-overlay">
+                    <div class="gallery-card-label">Wohn- & Essbereich mit offener Küche</div>
+                </div>
+            </figure>
+
+            <figure class="gallery-card reveal reveal-delay-1" data-lightbox="1">
+                <img src="images/Wohnzimmer.JPEG" alt="Essbereich mit dunklem Holztisch, Designerstühlen und Holzbalken" loading="lazy">
+                <div class="gallery-card-overlay">
+                    <div class="gallery-card-label">Essbereich</div>
+                </div>
+            </figure>
+            <figure class="gallery-card reveal reveal-delay-2" data-lightbox="2">
+                <img src="images/Kueche.JPEG" alt="Moderne Einbauküche mit Kochinsel und Edelstahl-Abzugshaube" loading="lazy">
+                <div class="gallery-card-overlay">
+                    <div class="gallery-card-label">Designerküche</div>
+                </div>
+            </figure>
+            <figure class="gallery-card reveal reveal-delay-3" data-lightbox="3">
+                <img src="images/Wohnzimmer_3.JPEG" alt="Wohnbereich mit Sideboard, Les Fleurs Kunstdruck und Fensterblick" loading="lazy">
+                <div class="gallery-card-overlay">
+                    <div class="gallery-card-label">Wohnbereich</div>
+                </div>
+            </figure>
+
+            <figure class="gallery-card wide reveal" data-lightbox="4">
+                <img src="images/Schlafzimmer.JPEG" alt="Großzügiges Schlafzimmer mit Doppelbett und historischem Fachwerk-Balken" loading="lazy">
+                <div class="gallery-card-overlay">
+                    <div class="gallery-card-label">Schlafzimmer</div>
+                </div>
+            </figure>
+            <figure class="gallery-card reveal reveal-delay-1" data-lightbox="5">
+                <img src="images/Gaestezimmer.JPEG" alt="Gästezimmer mit Fachwerk-Balken und moderner Einrichtung" loading="lazy">
+                <div class="gallery-card-overlay">
+                    <div class="gallery-card-label">Gästezimmer</div>
+                </div>
+            </figure>
+
+            <figure class="gallery-card reveal" data-lightbox="6">
+                <img src="images/Kamin.JPEG" alt="Gemütliches Kaminzimmer mit Schwedenofen und Sesseln" loading="lazy">
+                <div class="gallery-card-overlay">
+                    <div class="gallery-card-label">Kaminzimmer</div>
+                </div>
+            </figure>
+            <figure class="gallery-card reveal reveal-delay-1" data-lightbox="7">
+                <img src="images/Eingang.JPEG" alt="Eingangsbereich mit Holztreppe, Baumkunstwerk und USM-Sideboard" loading="lazy">
+                <div class="gallery-card-overlay">
+                    <div class="gallery-card-label">Entrée</div>
+                </div>
+            </figure>
+            <figure class="gallery-card reveal reveal-delay-2" data-lightbox="8">
+                <img src="images/Wohnzimmer_2.JPEG" alt="Weiterer Blick ins Wohnzimmer mit Gemälde und Holzbalken" loading="lazy">
+                <div class="gallery-card-overlay">
+                    <div class="gallery-card-label">Wohnzimmer — Kunst & Charakter</div>
+                </div>
+            </figure>
+        </div>
+    </section>
+
+    <!-- ROOMS DETAIL -->
+    <section class="rooms section-padding">
+        <div style="margin-bottom: clamp(2em, 4vh, 3em);">
+            <div class="section-label reveal" style="color: var(--gold);">Ausstattung</div>
+            <h2 class="section-heading section-heading-light reveal">Hochwertig in<br>jedem Detail</h2>
+        </div>
+
+        <div class="rooms-grid">
+            <div class="room-card reveal">
+                <div class="room-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v3"/></svg>
+                </div>
+                <h3>Offene Küche</h3>
+                <p>Hochwertige Einbauküche mit Kochinsel, Induktionskochfeld, Backofen und Dunstabzug — alles auf Profi-Niveau.</p>
+            </div>
+            <div class="room-card reveal reveal-delay-1">
+                <div class="room-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>
+                </div>
+                <h3>Schlaf- & Gästezimmer</h3>
+                <p>Großzügige Zimmer mit Doppelbett, historischem Fachwerk und modernem Komfort — unter den Holzbalken des Dachstuhls.</p>
+            </div>
+            <div class="room-card reveal reveal-delay-2">
+                <div class="room-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c-4.97 0-9-2.24-9-5v-3.5c0-1.5 1-2.5 2.5-3.5L12 6l6.5 4c1.5 1 2.5 2 2.5 3.5V17c0 2.76-4.03 5-9 5z"/><path d="M12 22v-6"/></svg>
+                </div>
+                <h3>Kaminzimmer</h3>
+                <p>Gemütlicher Rückzugsort mit Schwedenofen, Sesseln und stimmungsvoller Beleuchtung — perfekt für ruhige Abende.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section section-padding">
+        <div class="section-label reveal" style="color: var(--gold);">Interesse?</div>
+        <h2 class="section-heading section-heading-light reveal">Die Wohnung<br>wartet auf Sie</h2>
+        <p class="reveal">Die Betreiberwohnung kann optional zum Pachtobjekt hinzugebucht werden. Vereinbaren Sie eine Besichtigung.</p>
+        <div class="cta-buttons reveal">
+            <a href="index.html#kontakt" class="btn-primary">
+                Kontakt aufnehmen
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="index.html" class="btn-secondary">
+                Zurück zur Gastronomie
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-brand">Haus Michelswirth</div>
+        <div class="footer-center">&copy; 2026 Sagemüller Grundbesitz eGbR. Alle Rechte vorbehalten.</div>
+        <div class="footer-links">
+            <a href="impressum.html">Impressum</a>
+            <a href="datenschutz.html">Datenschutz</a>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" aria-label="Schließen">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <button class="lightbox-nav lightbox-prev" aria-label="Vorheriges Bild">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <img id="lightbox-img" src="" alt="">
+        <button class="lightbox-nav lightbox-next" aria-label="Nächstes Bild">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+    </div>
+
+    <script>
+        /* Scroll Reveal */
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '-4% 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        /* Nav scroll effect */
+        const nav = document.querySelector('.nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 80);
+        }, { passive: true });
+
+        /* Mobile hamburger */
+        const hamburger = document.querySelector('.hamburger');
+        const mobileOverlay = document.querySelector('.mobile-overlay');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileOverlay.classList.toggle('open');
+            document.body.style.overflow = mobileOverlay.classList.contains('open') ? 'hidden' : '';
+        });
+
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileOverlay.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+
+        /* Lightbox */
+        (() => {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const cards = document.querySelectorAll('[data-lightbox]');
+            const images = Array.from(cards).map(c => c.querySelector('img').src);
+            let currentIndex = 0;
+
+            function open(index) {
+                currentIndex = index;
+                lightboxImg.src = images[currentIndex];
+                lightbox.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function close() {
+                lightbox.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            function next() {
+                currentIndex = (currentIndex + 1) % images.length;
+                lightboxImg.src = images[currentIndex];
+            }
+
+            function prev() {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                lightboxImg.src = images[currentIndex];
+            }
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => open(Number(card.dataset.lightbox)));
+            });
+
+            lightbox.querySelector('.lightbox-close').addEventListener('click', close);
+            lightbox.querySelector('.lightbox-prev').addEventListener('click', (e) => { e.stopPropagation(); prev(); });
+            lightbox.querySelector('.lightbox-next').addEventListener('click', (e) => { e.stopPropagation(); next(); });
+            lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
+
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('open')) return;
+                if (e.key === 'Escape') close();
+                if (e.key === 'ArrowLeft') prev();
+                if (e.key === 'ArrowRight') next();
+            });
+
+            /* Touch/swipe */
+            let startX = 0, diffX = 0;
+            lightbox.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; diffX = 0; }, { passive: true });
+            lightbox.addEventListener('touchmove', (e) => { diffX = e.touches[0].clientX - startX; }, { passive: true });
+            lightbox.addEventListener('touchend', () => {
+                if (Math.abs(diffX) > 50) { diffX < 0 ? next() : prev(); }
+            });
+        })();
+    </script>
+</body>
+</html>
