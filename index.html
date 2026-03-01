@@ -549,93 +549,153 @@
         .history {
             background: var(--dark);
             overflow: hidden;
+            position: relative;
+        }
+
+        .history-intro {
+            text-align: center;
+            margin-bottom: clamp(2em, 4vh, 3.5em);
         }
 
         .history-carousel {
             position: relative;
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        .history-track {
-            display: flex;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            will-change: transform;
+        /* Slides: crossfade stack */
+        .history-slides {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         .history-slide {
-            min-width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: clamp(2em, 4vw, 4em);
-            align-items: center;
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
         }
 
-        .history-image {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            aspect-ratio: 4 / 3;
+        .history-slide.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        .history-image img {
+        .history-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            filter: sepia(0.15) contrast(1.05);
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: brightness(0.45) sepia(0.1);
+            transition: transform 6s cubic-bezier(0.25, 0, 0.25, 1);
         }
 
-        .history-slide.active .history-image img {
-            transform: scale(1.02);
+        .history-slide.active img {
+            transform: scale(1.05);
         }
 
-        .history-image::after {
-            content: '';
+        /* Text overlay */
+        .history-overlay {
             position: absolute;
             inset: 0;
-            border: 1px solid rgba(201, 169, 110, 0.15);
-            border-radius: 8px;
-            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: clamp(1.5em, 4vw, 3em);
+            background: linear-gradient(
+                0deg,
+                rgba(20, 18, 14, 0.9) 0%,
+                rgba(20, 18, 14, 0.5) 40%,
+                transparent 70%
+            );
         }
 
-        .history-year {
+        .history-overlay .history-epoch {
             font-family: var(--font-heading);
-            font-size: clamp(3em, 6vw, 4.5em);
-            font-weight: 300;
+            font-size: clamp(0.8em, 1.2vw, 0.95em);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
             color: var(--gold);
-            line-height: 1;
-            margin-bottom: 0.2em;
-            opacity: 0.85;
+            margin-bottom: 0.5em;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s 0.2s, transform 0.5s 0.2s;
         }
 
-        .history-title {
+        .history-slide.active .history-epoch {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .history-overlay .history-title {
             font-family: var(--font-heading);
-            font-size: clamp(1.4em, 2.5vw, 1.8em);
+            font-size: clamp(1.6em, 3.5vw, 2.6em);
             font-weight: 500;
             color: var(--text-light);
-            margin-bottom: 0.75em;
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s 0.3s, transform 0.5s 0.3s;
         }
 
-        .history-text {
-            font-size: 0.95em;
-            line-height: 1.75;
-            color: var(--text-light-muted);
+        .history-slide.active .history-title {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Carousel controls */
-        .history-controls {
+        .history-overlay .history-text {
+            font-size: clamp(0.85em, 1.1vw, 1em);
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s 0.4s, transform 0.5s 0.4s;
+        }
+
+        .history-slide.active .history-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Progress bar */
+        .history-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 2;
+        }
+
+        .history-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gold);
+            transition: width 0.3s linear;
+        }
+
+        .history-progress-bar.animating {
+            transition: width 6s linear;
+            width: 100%;
+        }
+
+        /* Controls below image */
+        .history-nav {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 1.5em;
-            margin-top: clamp(2em, 4vh, 3em);
+            justify-content: space-between;
+            margin-top: clamp(1.2em, 2.5vh, 2em);
         }
 
         .history-arrow {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             border: 1px solid var(--border-dark);
             background: transparent;
@@ -645,117 +705,136 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s var(--ease);
+            flex-shrink: 0;
         }
 
         .history-arrow:hover {
             border-color: var(--gold);
             color: var(--gold);
+            background: rgba(201, 169, 110, 0.08);
         }
 
-        .history-arrow:disabled {
-            opacity: 0.25;
-            cursor: default;
-        }
-
-        .history-arrow:disabled:hover {
-            border-color: var(--border-dark);
-            color: var(--text-light-muted);
-        }
-
-        .history-dots {
-            display: flex;
-            gap: 0.5em;
-        }
-
-        .history-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            border: none;
-            background: var(--border-dark);
-            cursor: pointer;
-            transition: all 0.3s var(--ease);
-            padding: 0;
-        }
-
-        .history-dot.active {
-            background: var(--gold);
-            transform: scale(1.3);
-        }
-
-        .history-dot:hover:not(.active) {
-            background: var(--text-light-muted);
-        }
-
-        /* Timeline line */
+        /* Timeline in center */
         .history-timeline {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 0;
             position: relative;
-            max-width: 600px;
-            margin: 0 auto clamp(2em, 4vh, 3em);
+            flex: 1;
+            max-width: 500px;
+            margin: 0 clamp(1em, 2vw, 2em);
         }
 
         .history-timeline::before {
             content: '';
             position: absolute;
             top: 50%;
-            left: 0;
-            right: 0;
+            left: 24px;
+            right: 24px;
             height: 1px;
             background: var(--border-dark);
         }
 
-        .history-timeline-dot {
+        .history-timeline-step {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             position: relative;
-            background: var(--dark);
-            padding: 0 0.75em;
-            font-family: var(--font-heading);
-            font-size: 0.9em;
-            color: var(--text-light-muted);
             cursor: pointer;
             border: none;
+            background: transparent;
+            padding: 0.5em 0;
+            transition: all 0.3s;
+        }
+
+        .history-timeline-pip {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--border-dark);
+            background: var(--dark);
+            transition: all 0.4s var(--ease);
+            position: relative;
+            z-index: 1;
+        }
+
+        .history-timeline-step.active .history-timeline-pip {
+            border-color: var(--gold);
+            background: var(--gold);
+            box-shadow: 0 0 16px rgba(201, 169, 110, 0.5);
+        }
+
+        .history-timeline-label {
+            font-family: var(--font-heading);
+            font-size: 0.78em;
+            color: var(--text-light-muted);
+            margin-top: 0.6em;
+            white-space: nowrap;
             transition: color 0.3s;
         }
 
-        .history-timeline-dot::before {
-            content: '';
-            display: block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--border-dark);
-            margin: 0 auto 0.4em;
-            transition: all 0.3s var(--ease);
-        }
-
-        .history-timeline-dot.active {
+        .history-timeline-step.active .history-timeline-label {
             color: var(--gold);
         }
 
-        .history-timeline-dot.active::before {
-            background: var(--gold);
-            box-shadow: 0 0 12px rgba(201, 169, 110, 0.4);
+        .history-timeline-step:hover .history-timeline-pip {
+            border-color: var(--gold);
+        }
+
+        .history-timeline-step:hover .history-timeline-label {
+            color: var(--text-light);
+        }
+
+        /* Slide counter */
+        .history-counter {
+            font-family: var(--font-heading);
+            font-size: 0.85em;
+            color: var(--text-light-muted);
+            min-width: 48px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .history-counter .current-num {
+            color: var(--gold);
+            font-size: 1.1em;
         }
 
         @media (max-width: 768px) {
-            .history-slide {
-                grid-template-columns: 1fr;
-                gap: 1.5em;
+            .history-slides {
+                aspect-ratio: 3 / 4;
+                border-radius: 8px;
             }
 
-            .history-image {
-                aspect-ratio: 16 / 10;
+            .history-overlay .history-text {
+                display: -webkit-box;
+                -webkit-line-clamp: 4;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .history-timeline-label {
+                font-size: 0.65em;
+            }
+
+            .history-arrow {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .history-slides {
+                aspect-ratio: 9 / 14;
+            }
+
+            .history-counter {
+                display: none;
             }
 
             .history-timeline {
-                gap: 0;
-            }
-
-            .history-timeline-dot {
-                font-size: 0.75em;
-                padding: 0 0.4em;
+                margin: 0 0.5em;
             }
         }
 
@@ -1659,80 +1738,89 @@
 
     <!-- HISTORY -->
     <section class="history section-padding" id="historie">
-        <div class="section-label reveal" style="color: var(--gold);">Seit 1627</div>
-        <h2 class="section-heading section-heading-light reveal">Fast 400 Jahre<br>Geschichte</h2>
-
-        <div class="history-timeline reveal" id="history-timeline">
-            <button class="history-timeline-dot active" data-slide="0">1627</button>
-            <button class="history-timeline-dot" data-slide="1">1692</button>
-            <button class="history-timeline-dot" data-slide="2">18./19. Jhd.</button>
-            <button class="history-timeline-dot" data-slide="3">Tradition</button>
+        <div class="history-intro">
+            <div class="section-label reveal" style="color: var(--gold);">Seit 1627</div>
+            <h2 class="section-heading section-heading-light reveal">Fast 400 Jahre<br>Geschichte</h2>
         </div>
 
         <div class="history-carousel reveal" id="history-carousel">
-            <div class="history-track" id="history-track">
+            <div class="history-slides" id="history-slides">
                 <!-- Slide 1: Die Anfänge -->
-                <div class="history-slide active">
-                    <div class="history-image">
-                        <img src="images/historie-1.jpg" alt="Historische Ansicht des Haus Michelswirth, 17. Jahrhundert" loading="lazy">
+                <div class="history-slide active" data-index="0">
+                    <img src="images/historie-1.jpg" alt="Historische Ansicht des Haus Michelswirth, 17. Jahrhundert" loading="lazy">
+                    <div class="history-overlay">
+                        <div class="history-epoch">Anno 1627</div>
+                        <h3 class="history-title">Die Anfänge — Gründung im Krieg</h3>
+                        <p class="history-text">Mitten im Dreißigjährigen Krieg erhielt Michael zum Markotten — genannt „Michels Jakob" — vom Fürstbischof von Osnabrück die Erlaubnis, in der Bauerschaft Avenwedde ein Kotten zu errichten. Bereits 1663 wurde das Haus als Brauhaus geführt, 1667 der Besitzer offiziell als „Brauer und Bierzapfer" gelistet.</p>
                     </div>
-                    <div class="history-content">
-                        <div class="history-year">1627</div>
-                        <h3 class="history-title">Die Anfänge</h3>
-                        <p class="history-text">Mitten im Dreißigjährigen Krieg erhielt Michael zum Markotten — genannt „Michels Jakob" — vom Fürstbischof von Osnabrück die Erlaubnis, in der Bauerschaft Avenwedde ein Kotten zu errichten. Bereits 1663 wurde das Haus als Brauhaus geführt. Nur vier Jahre später wurde der Besitzer offiziell als „Brauer und Bierzapfer" gelistet.</p>
-                    </div>
+                    <div class="history-progress"><div class="history-progress-bar"></div></div>
                 </div>
 
                 <!-- Slide 2: Der heutige Bau -->
-                <div class="history-slide">
-                    <div class="history-image">
-                        <img src="images/historie-2.jpg" alt="Das Fachwerkgebäude Haus Michelswirth, erbaut 1692" loading="lazy">
-                    </div>
-                    <div class="history-content">
-                        <div class="history-year">1692</div>
-                        <h3 class="history-title">Der heutige Bau</h3>
+                <div class="history-slide" data-index="1">
+                    <img src="images/historie-2.jpg" alt="Das Fachwerkgebäude Haus Michelswirth, erbaut 1692" loading="lazy">
+                    <div class="history-overlay">
+                        <div class="history-epoch">Anno 1692</div>
+                        <h3 class="history-title">Der heutige Bau entsteht</h3>
                         <p class="history-text">Das aktuelle Hauptgebäude stammt im Kern aus dem Jahr 1692, wie die Inschrift am Torbogen bezeugt. Über die Jahrhunderte wurde es behutsam erweitert und modernisiert — ohne seinen historischen Charakter zu verlieren. Das markante Fachwerk ist bis heute das Wahrzeichen des Hauses.</p>
                     </div>
+                    <div class="history-progress"><div class="history-progress-bar"></div></div>
                 </div>
 
                 <!-- Slide 3: Vielseitiger Betrieb -->
-                <div class="history-slide">
-                    <div class="history-image">
-                        <img src="images/historie-3.jpg" alt="Haus Michelswirth als Gastwirtschaft und Bäckerei" loading="lazy">
+                <div class="history-slide" data-index="2">
+                    <img src="images/historie-3.jpg" alt="Haus Michelswirth als Gastwirtschaft und Bäckerei" loading="lazy">
+                    <div class="history-overlay">
+                        <div class="history-epoch">18. & 19. Jahrhundert</div>
+                        <h3 class="history-title">Bäckerei, Herberge & Pferdehandel</h3>
+                        <p class="history-text">Neben der Gastwirtschaft gab es eine eigene Bäckerei, berühmt für ihr schweres Schwarzbrot — bis zu 30 Pfund pro Laib. Zudem diente das Haus als Herberge für Durchreisende und Fuhrleute sowie als Ort für den Pferdehandel. Ein echter Knotenpunkt des ländlichen Lebens.</p>
                     </div>
-                    <div class="history-content">
-                        <div class="history-year">18./19.</div>
-                        <h3 class="history-title">Vielseitiger Betrieb</h3>
-                        <p class="history-text">Neben der Gastwirtschaft gab es eine eigene Bäckerei, die für ihr schweres Schwarzbrot — bis zu 30 Pfund pro Laib — weit bekannt war. Zudem diente das Haus als Herberge für Durchreisende und Fuhrleute sowie als Ort für den Pferdehandel. Ein echter Knotenpunkt des ländlichen Lebens.</p>
-                    </div>
+                    <div class="history-progress"><div class="history-progress-bar"></div></div>
                 </div>
 
                 <!-- Slide 4: Tradition und Geselligkeit -->
-                <div class="history-slide">
-                    <div class="history-image">
-                        <img src="images/historie-4.jpg" alt="Geselliges Leben im Haus Michelswirth" loading="lazy">
+                <div class="history-slide" data-index="3">
+                    <img src="images/historie-4.jpg" alt="Geselliges Leben im Haus Michelswirth" loading="lazy">
+                    <div class="history-overlay">
+                        <div class="history-epoch">Lebendige Tradition</div>
+                        <h3 class="history-title">Das älteste Gütersloher Gasthaus</h3>
+                        <p class="history-text">Der Name leitet sich vom Heiligen Michael ab und ist eng mit der Gütersloher „Michaeliswoche" verknüpft. Über Jahrhunderte war das Haus Schauplatz für Schützenfeste, Theateraufführungen und Kegelsport — ein sozialer Mittelpunkt mit bewegter Geschichte.</p>
                     </div>
-                    <div class="history-content">
-                        <div class="history-year">Tradition</div>
-                        <h3 class="history-title">Geselligkeit & Tradition</h3>
-                        <p class="history-text">Der Name leitet sich vom Heiligen Michael ab und ist eng mit der Gütersloher „Michaeliswoche" verknüpft. Über Jahrhunderte war das Haus Schauplatz für Schützenfeste, Theateraufführungen und Kegelsport. Es galt als das „älteste Gütersloher Gasthaus" — ein sozialer Mittelpunkt mit bewegter Geschichte.</p>
-                    </div>
+                    <div class="history-progress"><div class="history-progress-bar"></div></div>
                 </div>
             </div>
 
-            <!-- Controls -->
-            <div class="history-controls">
-                <button class="history-arrow" id="history-prev" disabled aria-label="Vorheriges Bild">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <!-- Navigation -->
+            <div class="history-nav">
+                <button class="history-arrow" id="history-prev" aria-label="Vorheriges Bild">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                 </button>
-                <div class="history-dots" id="history-dots">
-                    <button class="history-dot active" data-slide="0" aria-label="Slide 1"></button>
-                    <button class="history-dot" data-slide="1" aria-label="Slide 2"></button>
-                    <button class="history-dot" data-slide="2" aria-label="Slide 3"></button>
-                    <button class="history-dot" data-slide="3" aria-label="Slide 4"></button>
+
+                <div class="history-timeline" id="history-timeline">
+                    <button class="history-timeline-step active" data-slide="0">
+                        <span class="history-timeline-pip"></span>
+                        <span class="history-timeline-label">1627</span>
+                    </button>
+                    <button class="history-timeline-step" data-slide="1">
+                        <span class="history-timeline-pip"></span>
+                        <span class="history-timeline-label">1692</span>
+                    </button>
+                    <button class="history-timeline-step" data-slide="2">
+                        <span class="history-timeline-pip"></span>
+                        <span class="history-timeline-label">18./19. Jhd.</span>
+                    </button>
+                    <button class="history-timeline-step" data-slide="3">
+                        <span class="history-timeline-pip"></span>
+                        <span class="history-timeline-label">Tradition</span>
+                    </button>
                 </div>
+
+                <div class="history-counter">
+                    <span class="current-num" id="history-current">01</span> / 04
+                </div>
+
                 <button class="history-arrow" id="history-next" aria-label="Nächstes Bild">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                 </button>
             </div>
         </div>
@@ -2143,53 +2231,110 @@
            History Carousel
         ═══════════════════════════════════════ */
         (() => {
-            const track = document.getElementById('history-track');
-            const slides = track.querySelectorAll('.history-slide');
+            const container = document.getElementById('history-slides');
+            const slides = container.querySelectorAll('.history-slide');
             const prevBtn = document.getElementById('history-prev');
             const nextBtn = document.getElementById('history-next');
-            const dots = document.querySelectorAll('.history-dot');
-            const timelineDots = document.querySelectorAll('.history-timeline-dot');
-            let current = 0;
+            const steps = document.querySelectorAll('.history-timeline-step');
+            const counterEl = document.getElementById('history-current');
             const total = slides.length;
+            const AUTOPLAY_MS = 6000;
+
+            let current = 0;
+            let autoplayTimer = null;
+            let paused = false;
 
             function goTo(index) {
-                if (index < 0 || index >= total) return;
-                current = index;
-                track.style.transform = `translateX(-${current * 100}%)`;
+                const prev = current;
+                current = ((index % total) + total) % total;
 
-                slides.forEach((s, i) => s.classList.toggle('active', i === current));
-                dots.forEach((d, i) => d.classList.toggle('active', i === current));
-                timelineDots.forEach((d, i) => d.classList.toggle('active', i === current));
+                // Reset progress bars
+                slides.forEach(s => {
+                    const bar = s.querySelector('.history-progress-bar');
+                    bar.classList.remove('animating');
+                    bar.style.width = '0%';
+                });
 
-                prevBtn.disabled = current === 0;
-                nextBtn.disabled = current === total - 1;
+                // Crossfade
+                slides[prev].classList.remove('active');
+                slides[current].classList.add('active');
+
+                // Timeline
+                steps.forEach((s, i) => s.classList.toggle('active', i === current));
+
+                // Counter
+                counterEl.textContent = String(current + 1).padStart(2, '0');
+
+                // Start progress on active slide
+                requestAnimationFrame(() => {
+                    const activeBar = slides[current].querySelector('.history-progress-bar');
+                    activeBar.classList.add('animating');
+                });
+
+                resetAutoplay();
             }
 
-            prevBtn.addEventListener('click', () => goTo(current - 1));
-            nextBtn.addEventListener('click', () => goTo(current + 1));
+            function next() { goTo(current + 1); }
+            function prev() { goTo(current - 1); }
 
-            dots.forEach(d => d.addEventListener('click', () => goTo(Number(d.dataset.slide))));
-            timelineDots.forEach(d => d.addEventListener('click', () => goTo(Number(d.dataset.slide))));
+            function resetAutoplay() {
+                clearTimeout(autoplayTimer);
+                if (!paused) {
+                    autoplayTimer = setTimeout(next, AUTOPLAY_MS);
+                }
+            }
 
-            // Touch/swipe support
-            let startX = 0;
-            let diffX = 0;
+            // Controls
+            prevBtn.addEventListener('click', prev);
+            nextBtn.addEventListener('click', next);
+            steps.forEach(s => s.addEventListener('click', () => goTo(Number(s.dataset.slide))));
 
-            track.addEventListener('touchstart', (e) => {
+            // Pause on hover
+            const carousel = document.getElementById('history-carousel');
+            carousel.addEventListener('mouseenter', () => {
+                paused = true;
+                clearTimeout(autoplayTimer);
+            });
+            carousel.addEventListener('mouseleave', () => {
+                paused = false;
+                resetAutoplay();
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                const rect = carousel.getBoundingClientRect();
+                const inView = rect.top < window.innerHeight && rect.bottom > 0;
+                if (!inView) return;
+                if (e.key === 'ArrowLeft') prev();
+                if (e.key === 'ArrowRight') next();
+            });
+
+            // Touch/swipe
+            let startX = 0, diffX = 0;
+            container.addEventListener('touchstart', (e) => {
                 startX = e.touches[0].clientX;
                 diffX = 0;
+                paused = true;
+                clearTimeout(autoplayTimer);
             }, { passive: true });
 
-            track.addEventListener('touchmove', (e) => {
+            container.addEventListener('touchmove', (e) => {
                 diffX = e.touches[0].clientX - startX;
             }, { passive: true });
 
-            track.addEventListener('touchend', () => {
+            container.addEventListener('touchend', () => {
                 if (Math.abs(diffX) > 50) {
-                    if (diffX < 0) goTo(current + 1);
-                    else goTo(current - 1);
+                    diffX < 0 ? next() : prev();
                 }
+                paused = false;
+                resetAutoplay();
             });
+
+            // Start initial progress bar & autoplay
+            requestAnimationFrame(() => {
+                slides[0].querySelector('.history-progress-bar').classList.add('animating');
+            });
+            autoplayTimer = setTimeout(next, AUTOPLAY_MS);
         })();
 
         /* ═══════════════════════════════════════
