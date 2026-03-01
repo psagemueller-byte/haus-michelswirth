@@ -1021,6 +1021,109 @@
         /* ═══════════════════════════════════════
            FOOTER
         ═══════════════════════════════════════ */
+        /* Admin Login Modal */
+        .login-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-overlay.show {
+            display: flex;
+        }
+
+        .login-box {
+            background: #1A1714;
+            border: 1px solid rgba(201,169,110,0.2);
+            border-radius: 12px;
+            padding: 2.5em;
+            width: 90%;
+            max-width: 360px;
+            text-align: center;
+        }
+
+        .login-box h3 {
+            font-family: var(--font-heading);
+            font-size: 1.4em;
+            margin-bottom: 0.3em;
+            color: var(--gold);
+        }
+
+        .login-box p {
+            font-size: 0.85em;
+            color: var(--text-light-muted);
+            margin-bottom: 1.5em;
+        }
+
+        .login-box input {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border-dark);
+            border-radius: 6px;
+            padding: 0.75em 1em;
+            color: var(--text-light);
+            font-family: var(--font-body);
+            font-size: 1em;
+            outline: none;
+            margin-bottom: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .login-box input:focus {
+            border-color: var(--gold);
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 0.75em;
+            background: var(--gold);
+            color: #1A1714;
+            border: none;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-box button:hover {
+            background: #D4B87A;
+        }
+
+        .login-box button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .login-error {
+            color: #E06060;
+            font-size: 0.85em;
+            margin-bottom: 1em;
+            display: none;
+        }
+
+        .login-close {
+            position: absolute;
+            top: 1em;
+            right: 1em;
+            background: none;
+            border: none;
+            color: var(--text-light-muted);
+            cursor: pointer;
+            width: auto;
+            padding: 0.5em;
+        }
+
+        .login-close:hover {
+            color: var(--text-light);
+        }
+
         .footer {
             background: #121110;
             padding: clamp(2.5em, 5vh, 4em) clamp(2em, 6vw, 5em);
@@ -1266,11 +1369,11 @@
         <div class="hero-content">
             <div class="hero-badge">
                 <span class="hero-badge-dot"></span>
-                Sofort verfügbar
+                <span data-content="hero_badge">Sofort verfügbar</span>
             </div>
-            <h1>Haus<br><em>Michelswirth</em></h1>
-            <p class="hero-subtitle">Etablierte Gastronomie zu verpachten</p>
-            <p class="hero-text">Übernehmen Sie das Haus Michelswirth im historischen Fachwerkhaus — mit 750 m² Gastfläche, Platz für bis zu 184 Personen, elegantem Saal und stilvoller Bar. Bereit für Ihr Konzept.</p>
+            <h1 data-content="hero_title">Haus<br><em>Michelswirth</em></h1>
+            <p class="hero-subtitle" data-content="hero_subtitle">Etablierte Gastronomie zu verpachten</p>
+            <p class="hero-text" data-content="hero_description">Übernehmen Sie das Haus Michelswirth im historischen Fachwerkhaus — mit 750 m² Gastfläche, Platz für bis zu 184 Personen, elegantem Saal und stilvoller Bar. Bereit für Ihr Konzept.</p>
             <a href="#kontakt" class="btn-primary">
                 Besichtigung anfragen
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1285,11 +1388,11 @@
     <!-- INTRODUCTION -->
     <section class="intro section-padding" id="ueber-uns">
         <div class="section-label reveal">Über das Objekt</div>
-        <h2 class="section-heading reveal">Ein Ort mit Charakter<br>und Geschichte</h2>
+        <h2 class="section-heading reveal" data-content="intro_heading">Ein Ort mit Charakter<br>und Geschichte</h2>
         <div class="gold-line reveal" style="margin-top: 1.5em;"></div>
 
         <div class="intro-grid">
-            <div class="intro-main reveal">
+            <div class="intro-main reveal" data-content="intro_text">
                 <p>Das Haus Michelswirth vereint historischen Charme mit moderner Gastronomie-Infrastruktur. Im Herzen eines idyllischen Standorts gelegen, bietet das Fachwerkhaus einen einzigartigen Rahmen für anspruchsvolle kulinarische Konzepte.</p>
                 <p>Auf rund 750 Quadratmetern Gastfläche bietet das Haus Platz für bis zu 184 Personen in verschiedenen Bereichen: zwei Restaurants (bis 24 bzw. 16 Personen), ein Kaminzimmer (bis 14 Personen), ein großer Saal (bis 100 Personen, ideal für Feierlichkeiten ab 40 Personen) sowie eine Terrasse (ca. 30 Personen). Alle Räumlichkeiten befinden sich in einem gepflegten und sofort nutzbaren Zustand. Sprechen Sie uns an — wir zeigen Ihnen gerne alle Räume.</p>
                 <p>Die etablierte Adresse und der hohe Wiedererkennungswert bieten ideale Voraussetzungen für Gastronomen, die ein schlüsselfertiges Objekt mit Charakter suchen.</p>
@@ -1478,11 +1581,11 @@
     <!-- CONTACT -->
     <section class="contact section-padding" id="kontakt">
         <div class="section-label reveal" style="color: var(--gold);">Kontakt</div>
-        <h2 class="section-heading section-heading-light reveal">Interesse geweckt?</h2>
+        <h2 class="section-heading section-heading-light reveal" data-content="contact_heading">Interesse geweckt?</h2>
 
         <div class="contact-grid">
             <div class="contact-info reveal">
-                <h3>Vereinbaren Sie eine unverbindliche Besichtigung und überzeugen Sie sich selbst.</h3>
+                <h3 data-content="contact_description">Vereinbaren Sie eine unverbindliche Besichtigung und überzeugen Sie sich selbst.</h3>
                 <p>Ob gehobene Küche, regionale Spezialitäten oder ein innovatives Gastronomiekonzept — die Räumlichkeiten bieten den idealen Rahmen. Wir freuen uns auf Ihre Anfrage und beraten Sie gerne zu allen Details rund um die Pachtkonditionen.</p>
 
                 <div class="contact-pills">
@@ -1547,6 +1650,22 @@
             </div>
         </div>
     </section>
+
+    <!-- LOGIN MODAL -->
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-box" style="position:relative">
+            <button class="login-close" onclick="document.getElementById('login-overlay').classList.remove('show')" aria-label="Schließen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <h3>Admin-Zugang</h3>
+            <p>Bitte Passwort eingeben</p>
+            <div class="login-error" id="login-error">Falsches Passwort.</div>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <input type="password" id="login-password" placeholder="Passwort" autocomplete="current-password" required>
+                <button type="submit" id="login-btn">Anmelden</button>
+            </form>
+        </div>
+    </div>
 
     <!-- FOOTER -->
     <footer class="footer">
@@ -1739,6 +1858,82 @@
                 ticking = true;
             }
         }, { passive: true });
+
+        /* ═══════════════════════════════════════
+           Hidden admin login (5 clicks on logo)
+        ═══════════════════════════════════════ */
+        (() => {
+            const logo = document.querySelector('.nav-logo');
+            let clickCount = 0;
+            let clickTimer = null;
+
+            logo.addEventListener('click', (e) => {
+                if (e.target.closest('.nav-logo')) {
+                    clickCount++;
+                    clearTimeout(clickTimer);
+                    clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
+
+                    if (clickCount >= 5) {
+                        clickCount = 0;
+                        if (localStorage.getItem('admin_token')) {
+                            window.location.href = '/admin.html';
+                        } else {
+                            document.getElementById('login-overlay').classList.add('show');
+                            document.getElementById('login-password').focus();
+                        }
+                    }
+                }
+            });
+        })();
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('login-btn');
+            const errorEl = document.getElementById('login-error');
+            const password = document.getElementById('login-password').value;
+
+            btn.disabled = true;
+            btn.textContent = 'Wird geprüft…';
+            errorEl.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password }),
+                });
+                const data = await res.json();
+
+                if (!res.ok) throw new Error(data.error || 'Fehler');
+
+                localStorage.setItem('admin_token', data.token);
+                window.location.href = '/admin.html';
+            } catch {
+                errorEl.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Anmelden';
+            }
+        }
+
+        /* ═══════════════════════════════════════
+           Dynamic content loading from Airtable
+        ═══════════════════════════════════════ */
+        fetch('/api/content')
+            .then(r => r.json())
+            .then(({ content }) => {
+                if (!content) return;
+                document.querySelectorAll('[data-content]').forEach(el => {
+                    const key = el.dataset.content;
+                    if (content[key]) {
+                        if (key === 'intro_text') {
+                            el.innerHTML = content[key].split('\n\n').map(p => `<p>${p}</p>`).join('');
+                        } else {
+                            el.innerHTML = content[key];
+                        }
+                    }
+                });
+            })
+            .catch(() => {});
     </script>
 </body>
 </html>
