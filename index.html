@@ -1011,6 +1011,32 @@
         /* ═══════════════════════════════════════
            KITCHEN / AUSSTATTUNG
         ═══════════════════════════════════════ */
+        .inventory-info-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75em;
+            max-width: 720px;
+            margin: 1.5em auto 0;
+            padding: 1.1em 1.4em;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-left: 3px solid var(--gold);
+            border-radius: var(--radius);
+            font-size: 0.93em;
+            line-height: 1.7;
+            color: var(--text-light-muted);
+        }
+
+        .inventory-info-box p {
+            margin: 0;
+        }
+
+        .inventory-info-icon {
+            flex-shrink: 0;
+            margin-top: 0.2em;
+            color: var(--gold);
+        }
+
         .kitchen {
             background: var(--dark);
             color: var(--text-light);
@@ -1761,11 +1787,11 @@
         <div class="hero-content">
             <div class="hero-badge">
                 <span class="hero-badge-dot"></span>
-                <span data-content="hero_badge">Sofort verfügbar</span>
+                <span data-content="hero_badge">Jetzt Besichtigung vereinbaren</span>
             </div>
             <h1 data-content="hero_title">Haus<br><em>Michelswirth</em></h1>
             <p class="hero-subtitle" data-content="hero_subtitle">Etablierte Gastronomie zu verpachten</p>
-            <p class="hero-text" data-content="hero_description">Übernehmen Sie das Haus Michelswirth im historischen Fachwerkhaus — mit 750 m² Gastfläche, Platz für bis zu 184 Personen, elegantem Saal und stilvoller Bar. Bereit für Ihr Konzept.</p>
+            <p class="hero-text" data-content="hero_description">Übernehmen Sie das Haus Michelswirth im historischen Fachwerkhaus — mit 750 m² Gastfläche, Platz für bis zu 184 Personen und elegantem Saal. Besichtigungen ab sofort möglich, Übergabetermin nach Absprache.</p>
             <a href="#kontakt" class="btn-primary">
                 Besichtigung anfragen
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1786,7 +1812,7 @@
         <div class="intro-grid">
             <div class="intro-main reveal" data-content="intro_text">
                 <p>Das Haus Michelswirth vereint historischen Charme mit moderner Gastronomie-Infrastruktur. Im Herzen eines idyllischen Standorts gelegen, bietet das Fachwerkhaus einen einzigartigen Rahmen für anspruchsvolle kulinarische Konzepte.</p>
-                <p>Auf rund 750 Quadratmetern Gastfläche bietet das Haus Platz für bis zu 184 Personen in verschiedenen Räumen: ein Restaurant (bis 40 Personen), ein großer Saal (bis 100 Personen, ideal für Feierlichkeiten ab 40 Personen), eine Bar &amp; Lounge sowie eine Terrasse (ca. 30 Personen). Alle Räumlichkeiten befinden sich in einem gepflegten und sofort nutzbaren Zustand. Sprechen Sie uns an — wir zeigen Ihnen gerne alle Räume.</p>
+                <p>Auf rund 750 Quadratmetern Gastfläche bietet das Haus Platz für bis zu 184 Personen in verschiedenen Räumen: ein Restaurant (bis 40 Personen), ein großer Saal (bis 100 Personen, ideal für Feierlichkeiten ab 40 Personen), eine Bar &amp; Lounge sowie eine Terrasse (ca. 30 Personen). Alle Räumlichkeiten befinden sich in einem gepflegten Zustand. Den Übergabetermin stimmen wir individuell mit Ihnen ab. Sprechen Sie uns an — wir zeigen Ihnen gerne alle Räume.</p>
                 <p>Die etablierte Adresse und der hohe Wiedererkennungswert bieten ideale Voraussetzungen für Gastronomen, die ein schlüsselfertiges Objekt mit Charakter suchen.</p>
             </div>
             <div class="intro-side reveal reveal-delay-2">
@@ -2007,7 +2033,10 @@
     <section class="kitchen section-padding" id="ausstattung">
         <div class="section-label reveal" style="color: var(--gold);">Ausstattung &amp; Technik</div>
         <h2 class="section-heading section-heading-light reveal">Professionell ausgestattet,<br>sofort einsatzbereit</h2>
-        <p class="reveal" style="text-align: center; color: var(--text-light-muted); max-width: 680px; margin: 1em auto 0; font-size: 0.95em; line-height: 1.7;">Das vorhandene Inventar gehört nicht zum Pachtobjekt, eine Übernahme ist jedoch mit dem aktuellen Pächter verhandelbar.</p>
+        <div class="inventory-info-box reveal">
+            <svg class="inventory-info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <p>Die abgebildete bewegliche Ausstattung (Küchengeräte, Mobiliar, Geschirr) gehört nicht zum Pachtobjekt. Eine Übernahme einzelner Einrichtungsgegenstände ist auf Anfrage möglich. Gerne informieren wir Sie im persönlichen Gespräch über die verfügbaren Optionen und den möglichen Übergabetermin.</p>
+        </div>
 
         <div class="kitchen-grid">
             <div class="kitchen-features">
@@ -2053,7 +2082,7 @@
                     </div>
                     <div>
                         <h4>Schlüsselfertiger Zustand</h4>
-                        <p>Das gesamte Objekt befindet sich in einem gepflegten, betriebsbereiten Zustand — kein aufwändiger Umbau erforderlich.</p>
+                        <p>Das Gebäude befindet sich in einem gepflegten, gut erhaltenen Zustand. Die Räumlichkeiten sind für den Gastronomiebetrieb vorbereitet — Anschlüsse, Lüftung und Infrastruktur sind vorhanden.</p>
                     </div>
                 </div>
             </div>
